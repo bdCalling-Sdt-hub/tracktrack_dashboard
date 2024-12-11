@@ -40,6 +40,9 @@
   .center-center {
     @apply w-full flex justify-center items-center gap-2
   }
+  .between-center {
+    @apply w-full flex justify-between items-center gap-2
+  }
 
   .grid-2 {
     @apply grid grid-cols-1 md:grid-cols-2 w-full justify-start items-start gap-4
@@ -156,21 +159,26 @@
 .ant-table {
   border: none !important;
 }
+
 .ant-table td,
 .ant-table th {
   border: none !important;
 }
+
 .ant-table-container {
   border: none !important;
 }
+
 .ant-table-container {
   background: var(--black-200) !important;
   color: var(--white-600) !important;
 }
+
 .ant-table-cell {
   background: var(--black-200) !important;
   color: var(--white-600) !important;
 }
+
 .ant-table-cell-row-hover {
   background: var(--black-600) !important;
   color: var(--white-600) !important;

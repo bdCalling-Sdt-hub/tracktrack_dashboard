@@ -1,7 +1,6 @@
-import PaymentTable from "../../components/PaymentPage/PaymentTable";
-import PageHeading from "../../components/shared/PageHeading"
-import { PaymentData } from "../../Types/DataTypes"
-//data example
+import { Link } from 'react-router-dom'
+import { PaymentData } from '../../Types/DataTypes';
+import PaymentTable from '../PaymentPage/PaymentTable';
 const data: PaymentData[] = [
     {
         host: {
@@ -176,25 +175,21 @@ const data: PaymentData[] = [
 ];
 
 
-const Payment = () => {
-    //table column 
-
+const NewPayment = () => {
     return (
-        <div className="bg-[var(--black-200)] p-2 rounded-md text-[var(--white-600)]">
-            <PageHeading
-                text="Payment"
-            />
+        <div className='bg-[var(--black-200)] p-2 rounded mt-4 text-[var(--white-600)]'>
+            <div className='between-center'>
+                <p>New Payment</p>
+                <Link to={`/payment`} >
+                    Vew All
+                </Link>
+            </div>
             <PaymentTable
-                data={data}
-                pagination={{
-                    pageSize: 10,
-                    total: 100,
-                    showSizeChanger: false,
-                    onChange:(page)=>console.log(page)
-                }}
+                data={data?.slice(0, 5)}
+                pagination={false}
             />
         </div>
     )
 }
 
-export default Payment
+export default NewPayment

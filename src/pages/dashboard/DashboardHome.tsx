@@ -1,4 +1,5 @@
 import EventGrowth from "../../components/DashboardHome/EventGrowth"
+import NewPayment from "../../components/DashboardHome/NewPayment"
 import OverviewCart from "../../components/DashboardHome/OverviewCart"
 import UseGrowth from "../../components/DashboardHome/UseGrowth"
 
@@ -19,10 +20,13 @@ const DashboardHome = () => {
                     />)
                 }
             </div>
+            {/* charts */}
             <div className="grid-2  mt-6">
                 <EventGrowth />
                 <UseGrowth />
             </div>
+            {/* new Payment */}
+            <NewPayment />
         </>
     )
 }
