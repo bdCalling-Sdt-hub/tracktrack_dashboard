@@ -1,5 +1,6 @@
 import EventGrowth from "../../components/DashboardHome/EventGrowth"
 import OverviewCart from "../../components/DashboardHome/OverviewCart"
+import UseGrowth from "../../components/DashboardHome/UseGrowth"
 
 const DashboardHome = () => {
     // overview data array 
@@ -20,6 +21,7 @@ const DashboardHome = () => {
             </div>
             <div className="grid-2 px-3 mt-3">
                 <EventGrowth />
+                <UseGrowth />
             </div>
         </>
     )

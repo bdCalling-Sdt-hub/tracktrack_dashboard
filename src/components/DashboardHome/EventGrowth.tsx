@@ -9,7 +9,7 @@ const EventGrowth = () => {
         datasets: [ // Fix the typo here
             {
                 label: 'Overview data',
-                data: [20, 2, 6, 8, 1, 69, 65, 2, 58, 9, 65, 25],
+                data: [2, 2, 6, 8, 7, 9, 6, 4, 5, 9, 6, 2],
                 borderColor: '#F1714F',
                 borderWidth: 0,
                 fill: true,
