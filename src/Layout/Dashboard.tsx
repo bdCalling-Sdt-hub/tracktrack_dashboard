@@ -5,13 +5,15 @@ const Dashboard = () => {
     return (
         <div style={{
             gap: '0'
-        }} className='h-screen overflow-y-scroll start-start'>
+        }} className='h-screen overflow-y-scroll start-start bg-[var(--black-100)]'>
             <div className="w-[300px] h-full overflow-y-scrolls">
                 <Sidebar />
             </div>
-            <div className="w-[calc(100% - 300px)] start-start flex-col gap-4">
+            <div className="w-[calc(100%-300px)] start-start flex-col gap-4">
                 <Header />
-                <Outlet />
+                <div className="w-full">
+                    <Outlet />
+                </div>
             </div>
         </div>
     )

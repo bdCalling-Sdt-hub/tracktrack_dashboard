@@ -1,7 +1,7 @@
 import { AiOutlineMenuUnfold } from "react-icons/ai"
 import { FaUserTie } from "react-icons/fa"
 import { IoSettingsOutline, IoSpeedometerOutline } from "react-icons/io5"
-import { LuTicketCheck, LuUserRound } from "react-icons/lu"
+import { LuLogOut, LuTicketCheck, LuUserRound } from "react-icons/lu"
 import { MdKeyboardArrowRight, MdOutlineFeedback } from "react-icons/md"
 import { RiExchangeDollarLine } from "react-icons/ri"
 import { NavLink, useLocation } from "react-router-dom"
@@ -28,10 +28,13 @@ const settingLink = [
     { name: 'Terms & Condition', path: '/terms' },
     { name: 'Profile', path: '/profile' },
 ]
+
 const Sidebar = () => {
     const location = useLocation()
     return (
         <div className="start-start flex-col bg-[var(--black-200)] h-full p-3">
+            {/* logo */}
+            <p className="center-center text-4xl mb-3 text-white uppercase">logo</p>
             {/* map the admin menus  */}
             {
                 adminMenus?.map(item => <NavLink className={`${location?.pathname === item?.path ? 'sidebar-button-orange' : 'sidebar-button-black'} `} to={item?.path}>
@@ -59,6 +62,10 @@ const Sidebar = () => {
                     </AccordionItem>
                 </Accordion>
             </div>
+            {/* logout button */}
+            <button className="sidebar-button-black">
+                <LuLogOut /> Logout
+            </button>
         </div>
     )
 }

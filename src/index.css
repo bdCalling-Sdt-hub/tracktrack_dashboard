@@ -2,63 +2,90 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root {
-  --white-600 : #F1F1F1;
-  --gray-600 : #8D8D8D;
-  --black-700 : #0B0B0D;
-  --black-600 : #19191A;
-  --black-200 : #2F2F31;
-  --black-100 : #2F2F3182;
-  --sky-600 : #57C4DD;
-  --orange-600 : #F1714F;
-  --green-300 : #60A007;
-  --green-600 : #397A08;
-  --red-300 : #CD4143;
-  --red-600 : #BA0F12;
+  --white-600: #F1F1F1;
+  --gray-600: #8D8D8D;
+  --black-700: #0B0B0D;
+  --black-600: #19191A;
+  --black-200: #2F2F31;
+  --black-100: #2F2F3182;
+  --sky-600: #57C4DD;
+  --orange-600: #F1714F;
+  --green-300: #60A007;
+  --green-600: #397A08;
+  --red-300: #CD4143;
+  --red-600: #BA0F12;
 }
-*{
+
+* {
   font-family: "Poppins";
   padding: 0;
   margin: 0;
 }
+
 @layer utilities {
-  .start-start{
+  .start-start {
     @apply w-full flex justify-start items-start gap-2
   }
-  .start-center{
+
+  .start-center {
     @apply w-full flex justify-start items-center gap-2
   }
-  .center-start{
+
+  .center-start {
     @apply w-full flex justify-center items-start gap-2
   }
-  .center-center{
+
+  .center-center {
     @apply w-full flex justify-center items-center gap-2
   }
+
+  .grid-2 {
+    @apply grid grid-cols-1 md:grid-cols-2 w-full justify-start items-start gap-4
+  }
+
+  .grid-3 {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full justify-start items-start gap-4
+  }
+
+  .grid-4 {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full justify-start items-start gap-4
+  }
+
   .sidebar-button-black {
-    @apply flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--black-700)] p-3 rounded hover:text-[var(--black-700)] hover:bg-[var(--orange-600)] transition-all 
-  } 
+    @apply flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--black-700)] p-3 rounded hover:text-[var(--black-700)] hover:bg-[var(--orange-600)] transition-all
+  }
+
   .sidebar-button-orange {
-    @apply flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--orange-600)] p-3 rounded hover:text-[var(--black-700)] hover:bg-[var(--orange-600)] transition-all 
+    @apply flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--orange-600)] p-3 rounded hover:text-[var(--black-700)] hover:bg-[var(--orange-600)] transition-all
   }
+
   .green-button-300 {
-    @apply  flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--green-300)] p-3 rounded hover:bg-[var(--green-600)] transition-all 
+    @apply flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--green-300)] p-3 rounded hover:bg-[var(--green-600)] transition-all
   }
+
   .green-button-600 {
-    @apply  flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--green-600)] p-3 rounded hover:bg-[var(--green-300)] transition-all 
+    @apply flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--green-600)] p-3 rounded hover:bg-[var(--green-300)] transition-all
   }
+
   .red-button-600 {
-    @apply  flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--green-600)] p-3 rounded hover:bg-[var(--red-300)] transition-all 
+    @apply flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--green-600)] p-3 rounded hover:bg-[var(--red-300)] transition-all
   }
+
   .red-button-300 {
-    @apply  flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--green-300)] p-3 rounded hover:bg-[var(--red-600)] transition-all 
+    @apply flex justify-start items-center gap-2 w-full text-[var(--white-600)] bg-[var(--green-300)] p-3 rounded hover:bg-[var(--red-600)] transition-all
   }
-  .modal-heading{
+
+  .modal-heading {
     @apply text-xl text-[var(--white-600)] font-semibold
   }
-}  
-::-webkit-scrollbar{
+}
+
+::-webkit-scrollbar {
   display: none;
 }
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -87,6 +114,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -114,10 +142,12 @@
     --chart-5: 340 75% 55%
   }
 }
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
