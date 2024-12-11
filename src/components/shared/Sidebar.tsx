@@ -38,6 +38,7 @@ const Sidebar = () => {
                     {item?.icon} {item?.name}
                 </NavLink>)
             }
+            {/* map the links  */}
             <div className="w-full">
                 <Accordion type="single" collapsible>
                     <AccordionItem value="item-1" className="border-none">
