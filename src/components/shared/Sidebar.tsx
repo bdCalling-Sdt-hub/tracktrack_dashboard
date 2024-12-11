@@ -32,7 +32,7 @@ const settingLink = [
 const Sidebar = () => {
     const location = useLocation()
     return (
-        <div className="start-start flex-col bg-[var(--black-200)] h-full p-3">
+        <div className="start-start  flex-col bg-[var(--black-200)] h-full overflow-y-scroll p-3">
             {/* logo */}
             <p className="center-center text-4xl mb-3 text-white uppercase">logo</p>
             {/* map the admin menus  */}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 const Header = () => {
     return (
-        <div className="flex justify-end items-center gap-3 w-full bg-[var(--black-200)] p-2">
+        <div className="flex justify-end items-center gap-3 w-full bg-[var(--black-200)] h-[100px] px-2">
             {/* notification */}
             <Link to={`/notification`} className="p-3 rounded-full text-3xl bg-[var(--white-600)] relative">
                 <IoIosNotificationsOutline />

@@ -12,14 +12,14 @@ const DashboardHome = () => {
     return (
         <>
             {/* over views */}
-            <div className="grid-3 px-3 h-[130px]">
+            <div className="grid-3 h-[130px]">
                 {
                     overViewData?.map(item => <OverviewCart
                         data={item}
                     />)
                 }
             </div>
-            <div className="grid-2 px-3 mt-3">
+            <div className="grid-2  mt-6">
                 <EventGrowth />
                 <UseGrowth />
             </div>

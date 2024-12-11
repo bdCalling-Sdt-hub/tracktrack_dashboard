@@ -1,22 +1,23 @@
-import { Outlet } from "react-router-dom"
-import Sidebar from "../components/shared/Sidebar"
-import Header from "../components/shared/Header"
+import { Outlet } from "react-router-dom";
+import Sidebar from "../components/shared/Sidebar";
+import Header from "../components/shared/Header";
+
 const Dashboard = () => {
     return (
-        <div style={{
-            gap: '0'
-        }} className='h-screen overflow-y-scroll start-start bg-[var(--black-100)]'>
-            <div className="w-[300px] h-full overflow-y-scrolls">
+        <div className="h-screen overflow-hidden flex bg-[var(--black-100)]">
+            {/* Sidebar */}
+            <div className="w-[300px] h-full overflow-y-scroll bg-[var(--black-200)]">
                 <Sidebar />
             </div>
-            <div className="w-[calc(100%-300px)] start-start flex-col gap-4">
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col gap-4">
                 <Header />
-                <div className="w-full">
+                <div className="flex-1 w-full p-4 overflow-y-scroll">
                     <Outlet />
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Dashboard
+export default Dashboard;
