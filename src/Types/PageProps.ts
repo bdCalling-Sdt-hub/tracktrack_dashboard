@@ -18,3 +18,20 @@ export interface PaymentTableProps {
         onChange: (page: number, pageSize?: number) => void;
     } | false;
 }
+
+// category data type 
+export interface CategoryData {
+    name: string,
+    category_image: string,
+    _id: string,
+}
+
+//  search component props 
+export interface SearchComponent {
+    value: string,
+    setValue: (arg: string) => void
+}
+
+export interface CategoryModalProps {
+    closeModal: () => void
+}

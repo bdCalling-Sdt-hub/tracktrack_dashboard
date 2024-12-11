@@ -40,8 +40,13 @@
   .center-center {
     @apply w-full flex justify-center items-center gap-2
   }
+
   .between-center {
     @apply w-full flex justify-between items-center gap-2
+  }
+
+  .end-center {
+    @apply w-full flex justify-end items-center gap-2
   }
 
   .grid-2 {
@@ -182,4 +187,7 @@
 .ant-table-cell-row-hover {
   background: var(--black-600) !important;
   color: var(--white-600) !important;
+}
+.ant-modal-content{
+  padding: 0 !important;
 }

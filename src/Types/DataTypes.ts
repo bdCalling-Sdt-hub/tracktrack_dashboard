@@ -16,3 +16,7 @@ export interface PaymentData {
     track: TrackInfo;
     amount: string;
 }
+export type CategoryFieldType = {
+    name?: string;
+    category_image?: string | File;
+};
