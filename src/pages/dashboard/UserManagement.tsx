@@ -2,6 +2,9 @@ import { Table } from "antd"
 import { UserDataType } from "../../Types/DataTypes"
 import UsernameImage from "../../components/shared/UsernameImage"
 import DropdownSelectButton from "../../components/shared/DropdownSelectButton"
+import { useState } from "react"
+import PageHeading from "../../components/shared/PageHeading"
+import Search from "../../components/shared/Search"
 // example data 
 const userData: UserDataType[] = [
     {
@@ -61,6 +64,12 @@ const userData: UserDataType[] = [
     }
 ]
 const UserManagement = () => {
+    // search text
+    const [searchTerm, setSearchTerm] = useState('')
+
+    //pagination
+    const [page, setPage] = useState(1)
+
     // column 
     const column = [
         { title: 'User Name', key: 'name', dataIndex: 'name', render: (name: string, record: UserDataType) => <UsernameImage name={name} image={record?.profile_image} /> },
@@ -90,12 +99,31 @@ const UserManagement = () => {
         console.log(status)
     }
     return (
-        <div className="">
+        <>
+            <div className="between-center gap-2 mb-4">
+                {/* heading and back button */}
+                <PageHeading
+                    text="User Management"
+                />
+                {/* search and add category button */}
+                <div className="end-center">
+                    <Search
+                        value={searchTerm}
+                        setValue={setSearchTerm}
+                    />
+                </div>
+            </div>
             <Table
                 dataSource={userData}
                 columns={column}
+                pagination={{
+                    pageSize: 10,
+                    total: 255,
+                    showSizeChanger: false,
+                    onChange: (page) => setPage(page)
+                }}
             />
-        </div>
+        </>
     )
 }
 

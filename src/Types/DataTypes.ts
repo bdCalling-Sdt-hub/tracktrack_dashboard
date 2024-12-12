@@ -34,3 +34,46 @@ export interface UserDataType {
         isBlocked: boolean
     },
 }
+// booking types 
+export interface BookingTypes {
+    user: {
+        name: string,
+        phoneNumber: string,
+        profile_image: string,
+    },
+    host: {
+        name: string,
+        phoneNumber: string,
+        profile_image: string,
+    },
+    trackSlot?: {
+        slotNo: string
+    },
+    track?: {
+        trackName: string
+        address: string
+    },
+    eventSlot?: {
+        slotNo: string
+    },
+    event?: {
+        eventName: string
+        address: string
+    }
+    startDateTime: string
+    endDateTime: string
+}
+// host  data types  
+export interface HostDataTypes {
+    user: {
+        name: string,
+        email: string,
+        profile_image: string,
+        address: string,
+        authId: {
+            isBlocked: boolean
+        }
+    },
+    totalTrack: string,
+    totalEvent: string,
+}
