@@ -10,6 +10,11 @@ import Feedback from "../pages/dashboard/Feedback";
 import Privacy from "../pages/dashboard/Privacy";
 import Terms from "../pages/dashboard/Terms";
 import Profile from "../pages/dashboard/Profile";
+import Notification from "../pages/dashboard/Notification";
+import Login from "../pages/auth/Login";
+import ForgetPassword from "../pages/auth/ForgetPassword";
+import Otp from "../pages/auth/Otp";
+import ResetPassword from "../pages/auth/ResetPassword";
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -25,7 +30,11 @@ export const router = createBrowserRouter([
             { path: '/privacy', element: <Privacy /> },
             { path: '/terms', element: <Terms /> },
             { path: '/profile', element: <Profile /> },
+            { path: '/notification', element: <Notification /> },
         ]
     },
-    { path: '/login', element: <p>home</p> },
+    { path: '/login', element: <Login /> },
+    { path: '/forget-password', element: <ForgetPassword /> },
+    { path: '/otp', element: <Otp /> },
+    { path: '/reset-password', element: <ResetPassword /> },
 ])

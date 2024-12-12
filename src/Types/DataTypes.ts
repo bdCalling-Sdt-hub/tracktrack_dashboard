@@ -94,7 +94,7 @@ export interface userProfileFieldType {
     name: string,
     phoneNumber: string,
     address: string,
-    email:string
+    email: string
 }
 
 // change password
@@ -102,4 +102,18 @@ export interface userChangePassword {
     oldPassword: string,
     newPassword: string,
     confirmPassword: string,
+}
+// login field
+export interface LoginFieldType {
+    email: string,
+    password: string,
+}
+export interface OtpFieldType {
+    otp: string,
+    email: string,
+}
+export interface ResetFieldType {
+    newPassword: string,
+    confirmPassword: string,
+    email: string,
 }
