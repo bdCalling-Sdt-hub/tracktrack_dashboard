@@ -6,6 +6,7 @@ import Category from "../pages/dashboard/Category";
 import UserManagement from "../pages/dashboard/UserManagement";
 import HostManagement from "../pages/dashboard/HostManagement";
 import Booking from "../pages/dashboard/Booking";
+import Feedback from "../pages/dashboard/Feedback";
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -17,7 +18,7 @@ export const router = createBrowserRouter([
             { path: '/user-management', element: <UserManagement /> },
             { path: '/host-management', element: <HostManagement /> },
             { path: '/booking', element: <Booking /> },
-            { path: '/feedback', element: <Booking /> },
+            { path: '/feedback', element: <Feedback /> },
         ]
     },
     { path: '/login', element: <p>home</p> },

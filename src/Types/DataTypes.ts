@@ -77,3 +77,14 @@ export interface HostDataTypes {
     totalTrack: string,
     totalEvent: string,
 }
+
+// feedback data types
+export interface FeedbackDataType {
+    _id:string,
+    user: {
+        _id: string,
+        name: string,
+    },
+    review: string,
+    createdAt: string
+}
