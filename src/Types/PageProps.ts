@@ -47,3 +47,9 @@ export interface SelectButtonProps {
     text: string,
     width?: string,
 }
+
+// jodit component props
+export interface JoditProps {
+    content: string,
+    setContent: (arg: string) => void
+}
