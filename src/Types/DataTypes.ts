@@ -80,11 +80,26 @@ export interface HostDataTypes {
 
 // feedback data types
 export interface FeedbackDataType {
-    _id:string,
+    _id: string,
     user: {
         _id: string,
         name: string,
     },
     review: string,
     createdAt: string
+}
+
+// user profile field type 
+export interface userProfileFieldType {
+    name: string,
+    phoneNumber: string,
+    address: string,
+    email:string
+}
+
+// change password
+export interface userChangePassword {
+    oldPassword: string,
+    newPassword: string,
+    confirmPassword: string,
 }

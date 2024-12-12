@@ -9,6 +9,7 @@ import Booking from "../pages/dashboard/Booking";
 import Feedback from "../pages/dashboard/Feedback";
 import Privacy from "../pages/dashboard/Privacy";
 import Terms from "../pages/dashboard/Terms";
+import Profile from "../pages/dashboard/Profile";
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
             { path: '/feedback', element: <Feedback /> },
             { path: '/privacy', element: <Privacy /> },
             { path: '/terms', element: <Terms /> },
+            { path: '/profile', element: <Profile /> },
         ]
     },
     { path: '/login', element: <p>home</p> },
