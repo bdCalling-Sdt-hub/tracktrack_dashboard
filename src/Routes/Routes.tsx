@@ -3,6 +3,7 @@ import Dashboard from "../Layout/Dashboard";
 import DashboardHome from "../pages/dashboard/DashboardHome";
 import Payment from "../pages/dashboard/Payment";
 import Category from "../pages/dashboard/Category";
+import UserManagement from "../pages/dashboard/UserManagement";
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -11,6 +12,7 @@ export const router = createBrowserRouter([
             { path: '/', element: <DashboardHome /> },
             { path: '/payment', element: <Payment /> },
             { path: '/category', element: <Category /> },
+            { path: '/user-management', element: <UserManagement /> },
         ]
     },
     { path: '/login', element: <p>home</p> },

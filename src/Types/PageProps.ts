@@ -31,7 +31,19 @@ export interface SearchComponent {
     value: string,
     setValue: (arg: string) => void
 }
-
+//category modal component props 
 export interface CategoryModalProps {
     closeModal: () => void
+}
+
+//table select button props 
+export interface SelectButtonProps {
+    handler: (arg: string) => void,
+    options: {
+        key: string;
+        label: JSX.Element;
+        value: string;
+    }[],
+    text: string,
+    width?: string,
 }
