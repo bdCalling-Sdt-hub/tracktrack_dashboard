@@ -1,4 +1,4 @@
-import { Form, FormProps, Input } from "antd"
+import { Form, FormProps,  } from "antd"
 import { userProfileFieldType } from "../../Types/DataTypes"
 
 const ProfileEdit = () => {
@@ -63,7 +63,7 @@ const ProfileEdit = () => {
             >
                 <input type="address" placeholder="address" className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]" />
             </Form.Item>
-            
+
             <button
                 style={{
                     width: '200px',
