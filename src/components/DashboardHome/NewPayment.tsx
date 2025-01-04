@@ -17,7 +17,8 @@ const data: PaymentData[] = [
             trackName: "Boosters A/B on offers",
             address: "3890 Poplar Dr"
         },
-        amount: "£120"
+        amount: "£120",
+        status:'success'
     },
     {
         host: {
@@ -34,7 +35,8 @@ const data: PaymentData[] = [
             trackName: "Track C/D Weekly Discount",
             address: "3605 Parker Rd"
         },
-        amount: "£100"
+        amount: "£100",
+        status:'success'
     },
     {
         host: {
@@ -51,7 +53,8 @@ const data: PaymentData[] = [
             trackName: "Weekend Race Discounts",
             address: "8585 Green Rd"
         },
-        amount: "£150"
+        amount: "£150",
+        status:'success'
     },
     {
         host: {
@@ -68,7 +71,8 @@ const data: PaymentData[] = [
             trackName: "Exclusive A/B Track",
             address: "775 Rolling Green Rd"
         },
-        amount: "£140"
+        amount: "£140",
+        status:'success'
     },
     {
         host: {
@@ -85,7 +89,8 @@ const data: PaymentData[] = [
             trackName: "Boosters E/F Special Offer",
             address: "8080 Railway Dr"
         },
-        amount: "£110"
+        amount: "£110",
+        status:'success'
     },
     {
         host: {
@@ -102,7 +107,8 @@ const data: PaymentData[] = [
             trackName: "Midweek Madness Tracks",
             address: "1234 Elm St"
         },
-        amount: "£130"
+        amount: "£130",
+        status:'success'
     },
     {
         host: {
@@ -119,7 +125,8 @@ const data: PaymentData[] = [
             trackName: "Boosters A/B on offers",
             address: "7529 E. Peace Rd"
         },
-        amount: "£120"
+        amount: "£120",
+        status:'success'
     },
     {
         host: {
@@ -136,7 +143,8 @@ const data: PaymentData[] = [
             trackName: "Early Bird Discounts",
             address: "3890 Poplar Dr"
         },
-        amount: "£115"
+        amount: "£115",
+        status:'success'
     },
     {
         host: {
@@ -153,7 +161,8 @@ const data: PaymentData[] = [
             trackName: "Track B/C Race Offer",
             address: "775 Rolling Green Rd"
         },
-        amount: "£125"
+        amount: "£125",
+        status:'success'
     },
     {
         host: {
@@ -170,11 +179,10 @@ const data: PaymentData[] = [
             trackName: "Weekend Special Discounts",
             address: "8585 Green Rd"
         },
-        amount: "£140"
+        amount: "£140",
+        status:'success'
     }
 ];
-
-
 const NewPayment = () => {
     return (
         <div className='bg-[var(--black-200)] p-2 rounded mt-4 text-[var(--white-600)]'>

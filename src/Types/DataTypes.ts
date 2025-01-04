@@ -9,12 +9,19 @@ interface TrackInfo {
     trackName: string;
     address: string;
 }
+//event info types 
+interface EventInfo {
+    eventName: string;
+    address: string;
+}
 // payment info data types 
 export interface PaymentData {
     host: ContactInfo;
     user: ContactInfo;
-    track: TrackInfo;
+    track?: TrackInfo;
+    event?: EventInfo;
     amount: string;
+    status:string,
 }
 // category form field type 
 export interface CategoryFieldType {

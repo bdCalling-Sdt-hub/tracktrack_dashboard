@@ -1,196 +1,154 @@
+import { useState } from "react";
 import PaymentTable from "../../components/PaymentPage/PaymentTable";
 import PageHeading from "../../components/shared/PageHeading"
 import { PaymentData } from "../../Types/DataTypes"
+import { Radio } from "antd";
 //data example
-const data: PaymentData[] = [
-    {
-        host: {
-            name: "Giring Furqan",
-            phoneNumber: "+99 248 525652321",
-            profile_image: "https://via.placeholder.com/150"
+const data = {
+    Track: [
+        {
+            user: {
+                name: "Alice Johnson",
+                phoneNumber: "+1234567890",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            host: {
+                name: "Bob Smith",
+                phoneNumber: "+0987654321",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            track: {
+                trackName: "Grand Speedway",
+                address: "45 jus ijnks"
+            },
+            amount: "£120",
+            status: "success"
         },
-        user: {
-            name: "Giring Furqan",
-            phoneNumber: "+99 248 525652321",
-            profile_image: "https://via.placeholder.com/150"
+        {
+            user: {
+                name: "Michael Brown",
+                phoneNumber: "+9988776655",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            host: {
+                name: "Samantha Green",
+                phoneNumber: "+4455667788",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            track: {
+                trackName: "Desert Circuit",
+                address: "89 Sunset Blvd"
+            },
+            amount: "$100",
+            status: "pending"
         },
-        track: {
-            trackName: "Boosters A/B on offers",
-            address: "3890 Poplar Dr"
+        {
+            user: {
+                name: "Sophia White",
+                phoneNumber: "+5678901234",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            host: {
+                name: "Daniel Adams",
+                phoneNumber: "+6789012345",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            track: {
+                trackName: "Mountain Trail",
+                address: "12 Rocky Rd"
+            },
+            amount: "€90",
+            status: "failed"
+        }
+    ] as PaymentData[] ,
+    Event: [
+        {
+            user: {
+                name: "Emily Davis",
+                phoneNumber: "+1122334455",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            host: {
+                name: "John Walker",
+                phoneNumber: "+5566778899",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            event: {
+                eventName: "Music Fest 2024",
+                address: "20 Melodic Lane"
+            },
+            amount: "£200",
+            status: "success"
         },
-        amount: "£120"
-    },
-    {
-        host: {
-            name: "John-W-BOSTON",
-            phoneNumber: "+99 458 365652321",
-            profile_image: "https://via.placeholder.com/150"
+        {
+            user: {
+                name: "Michael Brown",
+                phoneNumber: "+9988776655",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            host: {
+                name: "Samantha Green",
+                phoneNumber: "+4455667788",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            event: {
+                eventName: "Tech Conference 2024",
+                address: "45 Silicon St"
+            },
+            amount: "$300",
+            status: "success"
         },
-        user: {
-            name: "John-W-BOSTON",
-            phoneNumber: "+99 458 365652321",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        track: {
-            trackName: "Track C/D Weekly Discount",
-            address: "3605 Parker Rd"
-        },
-        amount: "£100"
-    },
-    {
-        host: {
-            name: "Yanto Jericho",
-            phoneNumber: "+92 308 32572113",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        user: {
-            name: "Yanto Jericho",
-            phoneNumber: "+92 308 32572113",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        track: {
-            trackName: "Weekend Race Discounts",
-            address: "8585 Green Rd"
-        },
-        amount: "£150"
-    },
-    {
-        host: {
-            name: "Lukman Farhan",
-            phoneNumber: "+98 654 89236547",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        user: {
-            name: "Lukman Farhan",
-            phoneNumber: "+98 654 89236547",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        track: {
-            trackName: "Exclusive A/B Track",
-            address: "775 Rolling Green Rd"
-        },
-        amount: "£140"
-    },
-    {
-        host: {
-            name: "Dimas Kamal",
-            phoneNumber: "+91 987 6543210",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        user: {
-            name: "Dimas Kamal",
-            phoneNumber: "+91 987 6543210",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        track: {
-            trackName: "Boosters E/F Special Offer",
-            address: "8080 Railway Dr"
-        },
-        amount: "£110"
-    },
-    {
-        host: {
-            name: "Hari Danang",
-            phoneNumber: "+90 123 4567890",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        user: {
-            name: "Hari Danang",
-            phoneNumber: "+90 123 4567890",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        track: {
-            trackName: "Midweek Madness Tracks",
-            address: "1234 Elm St"
-        },
-        amount: "£130"
-    },
-    {
-        host: {
-            name: "Alan Marcus",
-            phoneNumber: "+93 789 6543210",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        user: {
-            name: "Alan Marcus",
-            phoneNumber: "+93 789 6543210",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        track: {
-            trackName: "Boosters A/B on offers",
-            address: "7529 E. Peace Rd"
-        },
-        amount: "£120"
-    },
-    {
-        host: {
-            name: "Giring Furqan",
-            phoneNumber: "+99 248 525652321",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        user: {
-            name: "Giring Furqan",
-            phoneNumber: "+99 248 525652321",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        track: {
-            trackName: "Early Bird Discounts",
-            address: "3890 Poplar Dr"
-        },
-        amount: "£115"
-    },
-    {
-        host: {
-            name: "Lukman Farhan",
-            phoneNumber: "+98 654 89236547",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        user: {
-            name: "Lukman Farhan",
-            phoneNumber: "+98 654 89236547",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        track: {
-            trackName: "Track B/C Race Offer",
-            address: "775 Rolling Green Rd"
-        },
-        amount: "£125"
-    },
-    {
-        host: {
-            name: "Yanto Jericho",
-            phoneNumber: "+92 308 32572113",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        user: {
-            name: "Yanto Jericho",
-            phoneNumber: "+92 308 32572113",
-            profile_image: "https://via.placeholder.com/150"
-        },
-        track: {
-            trackName: "Weekend Special Discounts",
-            address: "8585 Green Rd"
-        },
-        amount: "£140"
-    }
-];
+        {
+            user: {
+                name: "Olivia Martin",
+                phoneNumber: "+2345678901",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            host: {
+                name: "Chris Evans",
+                phoneNumber: "+3456789012",
+                profile_image: "https://via.placeholder.com/150"
+            },
+            event: {
+                eventName: "Sports Gala 2024",
+                address: "78 Stadium Rd"
+            },
+            amount: "€250",
+            status: "success"
+        }
+    ]as PaymentData[]
+};
 
-
+const Tabs = ['Track', 'Event']
 const Payment = () => {
     //table column 
-
+    const [tab, setTab] = useState(Tabs?.[0])
     return (
         <div className="bg-[var(--black-200)] p-2 rounded-md text-[var(--white-600)]">
             <PageHeading
                 text="Payment"
             />
+            <div className="start-center mt-3 ml-2">
+                {
+                    Tabs?.map((item: string) =>
+                        <Radio
+                            onChange={(value) => setTab(item)}
+                            className="text-[var(--white-600)]"
+                            checked={item == tab}
+                            value={item}
+                            key={item}>
+                            {item}
+                        </Radio>)
+                }
+            </div>
             <PaymentTable
-                data={data}
+                data={data[tab as keyof typeof data]}
+                tab={tab}
                 pagination={{
                     pageSize: 10,
                     total: 100,
                     showSizeChanger: false,
-                    onChange:(page)=>console.log(page)
+                    onChange: (page) => console.log(page)
                 }}
             />
         </div>

@@ -11,6 +11,7 @@ export interface OverviewPage {
 //payment table props 
 export interface PaymentTableProps {
     data: PaymentData[];
+    tab?:string
     pagination: {
         pageSize: number;
         total: number;
