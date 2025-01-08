@@ -20,7 +20,7 @@ const Profile = () => {
               src={
                 image ? URL.createObjectURL(image) : 'https://placehold.co/400'
               }
-              alt=""
+              alt="profile-picture"
             />
             <FaEdit
               size={24}
