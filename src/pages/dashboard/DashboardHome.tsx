@@ -1,34 +1,45 @@
-import EventGrowth from "../../components/DashboardHome/EventGrowth"
-import NewPayment from "../../components/DashboardHome/NewPayment"
-import OverviewCart from "../../components/DashboardHome/OverviewCart"
-import UseGrowth from "../../components/DashboardHome/UseGrowth"
+// src/components/DashboardHome/DashboardHome.tsx
+import { useGetOverviewDataQuery } from '../../services/dashBoardHomeApiSlice' // Import the hook
+import EventGrowth from '../../components/DashboardHome/EventGrowth'
+import NewPayment from '../../components/DashboardHome/NewPayment'
+import OverviewCart from '../../components/DashboardHome/OverviewCart'
+import UseGrowth from '../../components/DashboardHome/UseGrowth'
 
 const DashboardHome = () => {
-    // overview data array 
-    const overViewData = [
-        { amount: '3.5K', text: 'Total User' },
-        { amount: '18.9K', text: 'Total Host' },
-        { amount: '120.9k', text: 'Total Earning' },
-    ]
-    return (
-        <>
-            {/* over views */}
-            <div className="grid-3 h-[130px]">
-                {
-                    overViewData?.map(item => <OverviewCart
-                        data={item}
-                    />)
-                }
-            </div>
-            {/* charts */}
-            <div className="grid-2  mt-6">
-                <EventGrowth />
-                <UseGrowth />
-            </div>
-            {/* new Payment */}
-            <NewPayment />
-        </>
-    )
+  // Use the RTK Query hook to fetch the data
+  const { data, error, isLoading } = useGetOverviewDataQuery()
+
+  console.log(data)
+
+  // Handle loading and error states
+  if (isLoading) return <p>Loading...</p>
+  if (error) return <p>Error: {error.message}</p>
+
+  // Assuming the response contains an object with properties like totalUser, totalHost, etc.
+  const overViewData = data
+    ? [
+        { amount: data.totalUser.toString(), text: 'Total User' },
+        { amount: data.totalHost.toString(), text: 'Total Host' },
+      ]
+    : []
+
+  return (
+    <>
+      {/* Overview Cards */}
+      <div className="grid-3 h-[130px]">
+        {overViewData?.map((item, i) => (
+          <OverviewCart key={i} data={item} />
+        ))}
+      </div>
+      {/* Charts */}
+      <div className="grid-2 mt-6">
+        <EventGrowth />
+        <UseGrowth />
+      </div>
+      {/* New Payment */}
+      <NewPayment />
+    </>
+  )
 }
 
 export default DashboardHome
