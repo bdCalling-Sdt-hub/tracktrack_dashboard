@@ -18,6 +18,7 @@ const Login = () => {
         // Store the tokens in localStorage
         localStorage.setItem('accessToken', response.data.accessToken)
         localStorage.setItem('refreshToken', response.data.refreshToken)
+        localStorage.setItem('email', email)
 
         // Redirect to the dashboard after successful login
         navigate('/') // Use navigate to go to the dashboard page

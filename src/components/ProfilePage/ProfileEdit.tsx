@@ -1,78 +1,106 @@
-import { Form, FormProps,  } from "antd"
-import { userProfileFieldType } from "../../Types/DataTypes"
+// src/components/ProfilePage/ProfileEdit.tsx
+import React, { useState, useEffect } from 'react'
+import { Form, Input, Button, Upload } from 'antd'
 
-const ProfileEdit = () => {
-    const [form] = Form.useForm()
-    const onFinish: FormProps<userProfileFieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
+const ProfileEdit = ({
+  profile,
+  image,
+}: {
+  profile: any
+  image: File | null
+}) => {
+  const [error, setError] = useState<string | null>(null)
+
+  const [form] = Form.useForm()
+
+  // Pre-fill the form with the profile data when it's fetched
+  useEffect(() => {
+    form.setFieldsValue({
+      name: profile?.name,
+      email: profile?.email,
+      address: profile?.address,
+    })
+  }, [profile, form])
+
+  const onFinish = async (values: any) => {
+    const { name, phoneNumber, address } = values
+
+    try {
+      const formData = new FormData()
+      formData.append('name', name)
+      formData.append('email', profile?.email) // Use the email from the profile
+      formData.append('phoneNumber', phoneNumber)
+      formData.append('address', address)
+      if (image) {
+        formData.append('profile_image', image) // Attach the selected image
+      }
+
+      const response = await fetch(
+        'http://10.0.60.26:8001/admin/edit-profile',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+          body: formData,
+        }
+      )
+
+      const data = await response.json()
+
+      if (data.success) {
+        alert('Profile updated successfully!')
+      } else {
+        setError(data.message)
+      }
+    } catch (err) {
+      setError('Profile update failed. Please try again.')
     }
-    return (
-        <Form
-            form={form}
-            onFinish={onFinish}
-            layout="vertical"
-        >
-            <Form.Item<userProfileFieldType>
-                name="name"
-                label='name'
-                rules={[
-                    {
-                        required: true,
-                        message: 'name is required'
-                    }
-                ]}
-            >
-                <input placeholder="name" className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]" />
-            </Form.Item>
+  }
 
-            <Form.Item<userProfileFieldType>
-                name="email"
-                label='email'
-                rules={[
-                    {
-                        required: true,
-                        message: 'name is required'
-                    }
-                ]}
-            >
-                <input type="email" placeholder="email" className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]" />
-            </Form.Item>
+  return (
+    <Form form={form} onFinish={onFinish} layout="vertical">
+      {error && <p className="text-red-500">{error}</p>}
 
-            <Form.Item<userProfileFieldType>
-                name="phoneNumber"
-                label='phone number'
-                rules={[
-                    {
-                        required: true,
-                        message: 'phone number is required'
-                    }
-                ]}
-            >
-                <input placeholder="phone number" className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]" />
-            </Form.Item>
+      <Form.Item
+        name="name"
+        label="Name"
+        rules={[{ required: true, message: 'Name is required' }]}
+      >
+        <Input defaultValue={profile?.name} />
+      </Form.Item>
 
-            <Form.Item<userProfileFieldType>
-                name="address"
-                label='address'
-                rules={[
-                    {
-                        required: true,
-                        message: 'address is required'
-                    }
-                ]}
-            >
-                <input type="address" placeholder="address" className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]" />
-            </Form.Item>
+      <Form.Item name="email" label="Email">
+        <Input defaultValue={profile?.email} disabled />
+      </Form.Item>
 
-            <button
-                style={{
-                    width: '200px',
-                    justifyContent: 'center'
-                }}
-                className={`sidebar-button-orange mx-auto`}
-            >Update Profile</button>
-        </Form>
-    )
+      <Form.Item
+        name="phoneNumber"
+        label="Phone Number"
+        rules={[{ required: true, message: 'Phone number is required' }]}
+      >
+        <Input defaultValue={profile?.phoneNumber} />
+      </Form.Item>
+
+      <Form.Item
+        name="address"
+        label="Address"
+        rules={[{ required: true, message: 'Address is required' }]}
+      >
+        <Input defaultValue={profile?.address} />
+      </Form.Item>
+
+      <Button
+        type="primary"
+        htmlType="submit"
+        disabled={false}
+        className="w-full"
+        style={{ backgroundColor: '#F1714F', padding: '10px' }}
+      >
+        Update Profile
+      </Button>
+    </Form>
+  )
 }
 
 export default ProfileEdit
