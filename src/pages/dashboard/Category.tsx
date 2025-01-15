@@ -11,7 +11,8 @@ import Search from "../../components/shared/Search";
 
 const Category = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const { data, isLoading, refetch } = useGetAllCategoriesQuery({ searchTerm });
+    const [page, setPage] = useState<number>(1);
+    const { data, isLoading, refetch } = useGetAllCategoriesQuery({ searchTerm, page });
     const [deleteCategory, { isLoading: isDeleting }] = useDeleteCategoriesMutation();
 
 
@@ -91,6 +92,12 @@ const Category = () => {
                 columns={columns}
                 dataSource={categories}
                 rowKey="_id"
+                pagination={{
+                    pageSize: data?.data?.meta?.limit || 10,
+                    total: data?.data?.meta?.total || 0,
+                    showSizeChanger: false,
+                    onChange: (page) => setPage(page),
+                }}
             />
             {/* Category Add Modal */}
             <Modal

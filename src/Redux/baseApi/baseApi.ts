@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { url } from '../../Utils/server';
 
 const baseApis = createApi({
-  reducerPath: 'salonApis',
+  reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: url,
     prepareHeaders: (headers) => {
@@ -18,6 +18,7 @@ const baseApis = createApi({
     'userStatus',
     'category',
     'users',
+    'booking'
   ],
   endpoints: () => ({}),
 });

@@ -1,210 +1,161 @@
-import { useState } from "react"
-import PageHeading from "../../components/shared/PageHeading"
-import Search from "../../components/shared/Search"
-import { Radio, Table } from "antd"
-import { BookingTypes } from "../../Types/DataTypes"
-import UsernameImage from "../../components/shared/UsernameImage"
-// example data
-const data = {
-    "Track": [
-        {
-            "user": {
-                "name": "Alice Johnson",
-                "phoneNumber": "+1234567890",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "host": {
-                "name": "Bob Smith",
-                "phoneNumber": "+0987654321",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "trackSlot": {
-                "slotNo": "T01"
-            },
-            "track": {
-                "trackName": "Grand Speedway",
-                "address": "45 jus ijnks"
-            },
-            "startDateTime": "2024-12-15T10:00:00Z",
-            "endDateTime": "2024-12-15T12:00:00Z"
-        },
-        {
-            "user": {
-                "name": "Michael Brown",
-                "phoneNumber": "+9988776655",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "host": {
-                "name": "Samantha Green",
-                "phoneNumber": "+4455667788",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "trackSlot": {
-                "slotNo": "T12"
-            },
-            "track": {
-                "trackName": "Desert Circuit",
-                "address": "45 jus ijnks"
-            },
-            "startDateTime": "2024-12-16T09:00:00Z",
-            "endDateTime": "2024-12-16T11:30:00Z"
-        },
-        {
-            "user": {
-                "name": "Sophia White",
-                "phoneNumber": "+5678901234",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "host": {
-                "name": "Daniel Adams",
-                "phoneNumber": "+6789012345",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "trackSlot": {
-                "slotNo": "T15"
-            },
-            "track": {
-                "trackName": "Mountain Trail",
-                "address": "45 jus ijnks"
-            },
-            "startDateTime": "2024-12-22T14:00:00Z",
-            "endDateTime": "2024-12-22T16:30:00Z"
-        }
-    ] as BookingTypes[],
-    "Event": [
-        {
-            "user": {
-                "name": "Emily Davis",
-                "phoneNumber": "+1122334455",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "host": {
-                "name": "John Walker",
-                "phoneNumber": "+5566778899",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "eventSlot": {
-                "slotNo": "E05"
-            },
-            "event": {
-                "eventName": "Music Fest 2024",
-                "address": "45 jus ijnks"
-            },
-            "startDateTime": "2024-12-20T18:00:00Z",
-            "endDateTime": "2024-12-20T22:00:00Z"
-        },
-        {
-            "user": {
-                "name": "Michael Brown",
-                "phoneNumber": "+9988776655",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "host": {
-                "name": "Samantha Green",
-                "phoneNumber": "+4455667788",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "eventSlot": {
-                "slotNo": "E09"
-            },
-            "event": {
-                "eventName": "Tech Conference 2024",
-                "address": "45 jus ijnks"
-            },
-            "startDateTime": "2024-12-18T13:00:00Z",
-            "endDateTime": "2024-12-18T15:00:00Z"
-        },
-        {
-            "user": {
-                "name": "Olivia Martin",
-                "phoneNumber": "+2345678901",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "host": {
-                "name": "Chris Evans",
-                "phoneNumber": "+3456789012",
-                "profile_image": "https://via.placeholder.com/150"
-            },
-            "eventSlot": {
-                "slotNo": "E12"
-            },
-            "event": {
-                "eventName": "Sports Gala 2024",
-                "address": "45 jus ijnks"
-            },
-            "startDateTime": "2024-12-25T16:00:00Z",
-            "endDateTime": "2024-12-25T20:00:00Z"
-        }
-    ] as BookingTypes[]
+import { useState } from "react";
+import PageHeading from "../../components/shared/PageHeading";
+import Search from "../../components/shared/Search";
+import { Radio, Table } from "antd";
+import UsernameImage from "../../components/shared/UsernameImage";
+import { useGetAllBookingsQuery } from "../../Redux/api/bookingApis";
 
+// Tabs array
+const Tabs = ["Track", "Event"];
+
+export interface BookingHost {
+    name?: string;
+    email?: string;
+    profile_image?: string;
+    phoneNumber?: string;
 }
 
-//tabs array
-const Tabs = ['Track', 'Event']
+export interface BookingUser {
+    name?: string;
+    email?: string;
+    profile_image?: string;
+    phoneNumber?: string;
+}
+
+interface Booking {
+    _id: string;
+    host?: BookingHost;
+    user?: BookingUser;
+    trackSlot?: { slotNo: string };
+    eventSlot?: { slotNo: string };
+    track?: { trackName: string; address: string };
+    event?: { eventName: string; address: string };
+    startDateTime: string;
+    endDateTime: string;
+    status: string;
+    price: string;
+}
+
 const Booking = () => {
-    // search text
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [page, setPage] = useState<number>(1);
+    const [tab, setTab] = useState<string>(Tabs[0]);
+    const { data, isLoading } = useGetAllBookingsQuery({ searchTerm, page });
 
-    //pagination
-    const [page, setPage] = useState(1)
+    console.log(data);
 
-    // tabs 
-    const [tab, setTab] = useState(Tabs?.[0])
+    const bookingData = data?.data?.bookings.map((booking: Booking, i: number) => ({
+        key: booking?._id,
+        host: {
+            name: booking?.host?.name,
+            phoneNumber: booking?.host?.phoneNumber,
+            profile_image: booking?.host?.profile_image || `https://i.pravatar.cc/150?img=${i}`,
+        },
+        user: {
+            name: booking?.user?.name,
+            phoneNumber: booking?.user?.phoneNumber,
+            profile_image: booking?.user?.profile_image || `https://i.pravatar.cc/150?img=${i + 1}`,
+        },
+        slotNo: tab === "Track" ? booking?.trackSlot?.slotNo : booking?.eventSlot?.slotNo,
+        name: tab === "Track" ? booking?.track?.trackName : booking?.event?.eventName,
+        address: tab === "Track" ? booking?.track?.address : booking?.event?.address,
+        startDateTime: booking?.startDateTime.split("T")[0],
+        endDateTime: booking?.endDateTime.split("T")[0],
+        status: booking?.status,
+        price: booking?.price,
+    }));
 
-    // table columns
-    const column = [
-        { title: 'Host', Key: 'host', dataIndex: 'host', render: (host: any) => <UsernameImage name={host?.name} email={host?.phoneNumber} image={host?.profile_image} /> },
-        { title: 'User', Key: 'user', dataIndex: 'user', render: (user: any) => <UsernameImage name={user?.name} email={user?.phoneNumber} image={user?.profile_image} /> },
-        { title: tab == 'Track' ? 'Track Name' : 'Event Name', Key: tab == 'Track' ? 'track' : 'event', dataIndex: tab == 'Track' ? 'track' : 'event', render: (trackOrEvent: any) => <UsernameImage name={tab == 'Track' ? trackOrEvent?.trackName : trackOrEvent?.eventName} /> },
-        { title: 'Slot Number', Key: tab == 'Track' ? 'trackSlot' : 'eventSlot', dataIndex: tab == 'Track' ? 'trackSlot' : 'eventSlot', render: (trackSlotOrEventSlot: any) => <UsernameImage name={tab == 'Track' ? trackSlotOrEventSlot?.slotNo : trackSlotOrEventSlot?.slotNo} /> },
-        { title: 'Start Date', Key: 'startDateTime', dataIndex: 'startDateTime', render: (startDateTime: any) => <UsernameImage name={startDateTime?.split('T')?.[0]} /> },
-        { title: 'End Date', Key: 'endDateTime', dataIndex: 'endDateTime', render: (endDateTime: any) => <UsernameImage name={endDateTime?.split('T')?.[0]} /> },
-        { title: 'End Date', Key: 'endDateTime', dataIndex: 'endDateTime', render: (endDateTime: any) => <UsernameImage name={endDateTime?.split('T')?.[0]} /> },
-        { title: 'Address', Key: tab == 'Track' ? 'track' : 'event', dataIndex: tab == 'Track' ? 'track' : 'event', render: (trackOrEvent: any) => <UsernameImage name={tab == 'Track' ? trackOrEvent?.address : trackOrEvent?.address} /> },
-    ]
+    // Table columns
+    const columns = [
+        {
+            title: "Host",
+            dataIndex: "host",
+            key: "host",
+            render: (host: BookingHost) => (
+                <UsernameImage name={host?.name} email={host?.phoneNumber} image={host?.profile_image} />
+            ),
+        },
+        {
+            title: "User",
+            dataIndex: "user",
+            key: "user",
+            render: (user: BookingUser) => (
+                <UsernameImage name={user?.name} email={user?.phoneNumber} image={user?.profile_image} />
+            ),
+        },
+        {
+            title: tab === "Track" ? "Track Name" : "Event Name",
+            dataIndex: "name",
+            key: "name",
+        },
+        {
+            title: "Slot Number",
+            dataIndex: "slotNo",
+            key: "slotNo",
+        },
+        {
+            title: "Start Date",
+            dataIndex: "startDateTime",
+            key: "startDateTime",
+        },
+        {
+            title: "End Date",
+            dataIndex: "endDateTime",
+            key: "endDateTime",
+        },
+        {
+            title: "Address",
+            dataIndex: "address",
+            key: "address",
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+        },
+        {
+            title: "Price",
+            dataIndex: "price",
+            key: "price",
+        },
+    ];
+
     return (
         <>
             <div className="between-center gap-2 mb-4">
-                {/* heading and back button */}
-                <PageHeading
-                    text="Booking"
-                />
-                {/* search and add category button */}
+                <PageHeading text="Booking" />
                 <div className="end-center">
-                    <Search
-                        value={searchTerm}
-                        setValue={setSearchTerm}
-                    />
+                    <Search value={searchTerm} setValue={setSearchTerm} />
                 </div>
             </div>
             <div className="bg-[var(--black-200)] p-2 rounded">
                 <div className="start-center">
-                    {
-                        Tabs?.map((item: string) =>
-                            <Radio
-                                onChange={(value) => setTab(item)}
-                                className="text-[var(--white-600)]"
-                                checked={item == tab}
-                                value={item}
-                                key={item}>
-                                {item}
-                            </Radio>)
-                    }
+                    {Tabs.map((item) => (
+                        <Radio
+                            onChange={() => setTab(item)}
+                            className="text-[var(--white-600)]"
+                            checked={item === tab}
+                            value={item}
+                            key={item}
+                        >
+                            {item}
+                        </Radio>
+                    ))}
                 </div>
                 <Table
-                    dataSource={data[tab as keyof typeof data]}
-                    columns={column}
+                    loading={isLoading}
+                    dataSource={bookingData}
+                    columns={columns}
                     pagination={{
-                        pageSize: 10,
-                        total: 255,
+                        pageSize: data?.data?.meta?.limit || 10,
+                        total: data?.data?.meta?.total || 0,
                         showSizeChanger: false,
-                        onChange: (page) => setPage(page)
+                        onChange: (page) => setPage(page),
                     }}
                 />
             </div>
         </>
-    )
-}
+    );
+};
 
-
-export default Booking
+export default Booking;

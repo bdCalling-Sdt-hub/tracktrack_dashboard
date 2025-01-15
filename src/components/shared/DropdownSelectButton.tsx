@@ -4,7 +4,6 @@ import { IoIosArrowDown } from "react-icons/io";
 
 
 const DropdownSelectButton = ({ handler, options, text, width }: SelectButtonProps) => {
-    console.log({ handler, options, text })
     const menu = (
         <Menu>
             {options.map((option) => (

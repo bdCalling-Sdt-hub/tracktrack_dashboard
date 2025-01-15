@@ -7,11 +7,10 @@ import PageHeading from "../../components/shared/PageHeading";
 import { IAuthId } from "./HostManagement";
 import Search from "../../components/shared/Search";
 
-
 const UserManagement = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [page, setPage] = useState(1);
-    const { data, isLoading, refetch } = useGetAllUsersQuery({ role: "USER", page });
+    const { data, isLoading: isUserLoading } = useGetAllUsersQuery({ searchTerm, role: "USER", page });
     const [updateUserStatus, { isLoading: isUpdating }] = useUpdateUserStatusMutation();
 
     const users =
@@ -32,7 +31,6 @@ const UserManagement = () => {
             message.error("Invalid user ID");
             return;
         }
-        console.log(status);
 
         const isBlocked = status;
         try {
@@ -59,7 +57,7 @@ const UserManagement = () => {
             title: "Status",
             key: "authId",
             dataIndex: "authId",
-            render: (authId:IAuthId) => (
+            render: (authId: IAuthId) => (
                 <DropdownSelectButton
                     options={[
                         {
@@ -85,11 +83,11 @@ const UserManagement = () => {
             <div className="between-center gap-2 mb-4">
                 <PageHeading text="User Management" />
                 <div className="end-center">
-                    <Search  value={searchTerm} setValue={setSearchTerm} />
+                    <Search value={searchTerm} setValue={setSearchTerm} />
                 </div>
             </div>
             <Table
-                loading={isLoading || isUpdating}
+                loading={isUserLoading || isUpdating}
                 dataSource={users}
                 columns={columns}
                 rowKey="_id"
@@ -97,7 +95,7 @@ const UserManagement = () => {
                     pageSize: 10,
                     total: data?.meta?.total || 0,
                     showSizeChanger: false,
-                    onChange: (page) => setPage(page),
+                    onChange: (page) => setPage(page)
                 }}
             />
         </>

@@ -24,7 +24,7 @@ const HostManagement = () => {
 
     //pagination
     const [page, setPage] = useState(1)
-    const { data, isLoading } = useGetAllHostQuery({ role: "HOST", page })
+    const { data, isLoading } = useGetAllHostQuery({ searchTerm, role: "HOST", page })
     console.log(data);
 
     const hosts = data?.data?.map((host: any, index: number) => ({

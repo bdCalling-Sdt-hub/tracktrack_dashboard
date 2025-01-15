@@ -3,18 +3,18 @@ import baseApis from "../baseApi/baseApi";
 export const usersApis = baseApis.injectEndpoints({
     endpoints: (builder) => ({
         getAllUsers: builder.query({
-            query: ({ role, page }) => ({
+            query: ({ searchTerm, role, page }) => ({
                 url: '/dashboard/get-all-user',
                 method: 'GET',
-                params: { role, page },
+                params: { searchTerm, role, page },
             }),
             providesTags: ['users'],
         }),
         getAllHost: builder.query({
-            query: ({ role, page }) => ({
+            query: ({ searchTerm, role, page }) => ({
                 url: '/dashboard/get-all-user',
                 method: 'GET',
-                params: { role, page },
+                params: { searchTerm, role, page },
             }),
             providesTags: ['users'],
         }),
@@ -28,7 +28,7 @@ export const usersApis = baseApis.injectEndpoints({
                 },
             }),
             invalidatesTags: ['users'],
-        }), 
+        }),
 
     }),
 });
