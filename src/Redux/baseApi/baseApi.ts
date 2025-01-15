@@ -17,10 +17,12 @@ const baseApis = createApi({
   tagTypes: [
     'userStatus',
     'category',
+    'feedBack',
     'users',
     'booking',
     'overView',
-    'userGrowthOverView'
+    'userGrowthOverView',
+    'eventGrowthOverView'
   ],
   endpoints: () => ({}),
 });

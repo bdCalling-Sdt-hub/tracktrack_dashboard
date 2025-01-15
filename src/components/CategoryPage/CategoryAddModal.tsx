@@ -1,15 +1,18 @@
-import { Form, Input, Upload, Button, message } from "antd";
+import { Form, Input, Upload, Button, message, Spin } from "antd";
 import { FaImage } from "react-icons/fa";
 import { CategoryModalProps } from "../../Types/PageProps";
 import { RcFile } from "antd/lib/upload";
 import React from "react";
 import { useAddNewCategoryMutation } from "../../Redux/api/categoryApis";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
     const [form] = Form.useForm();
     const [setNewData, { isLoading: isAdding }] = useAddNewCategoryMutation();
     const [file, setFile] = React.useState<RcFile | null>(null);
-    const handleFileChange = ({ file }: { file: RcFile }) => {
+
+    const handleFileChange = ({ file }: { file: any }) => {
+        console.log(file)
         setFile(file);
     };
 
@@ -93,7 +96,7 @@ const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
                     loading={isAdding}
                     className="bg-[var(--orange-600)] border-none text-[var(--white-600)]"
                 >
-                    Save
+                    {isAdding ? <Spin indicator={<LoadingOutlined spin />} size="small" /> : 'Save'}
                 </Button>
             </div>
         </Form>

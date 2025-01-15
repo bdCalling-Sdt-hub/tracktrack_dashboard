@@ -1,15 +1,29 @@
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Filler } from "chart.js";
 import { useRef } from "react";
 import { Line } from 'react-chartjs-2';
+import { useGetEventGrowthOverViewQuery } from "../../Redux/api/overViewApis";
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Filler)
 const EventGrowth = () => {
     const canvasRef = useRef(null);
+    const { data: eventGrowthData, isLoading } = useGetEventGrowthOverViewQuery({ data: 'event', year: 2024 })
+    if (isLoading) {
+        return <p>..loading</p>
+    }
+    console.log(eventGrowthData?.data?.monthlyNewEntities);
+    const monthlyRegistration = eventGrowthData?.data?.monthlyRegistration || {};
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const dataValues = months.map(month => monthlyRegistration[month] || 0);
+
     const data = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        datasets: [ // Fix the typo here
+        labels: months,
+        datasets: [
             {
                 label: 'Overview data',
-                data: [2, 2, 6, 8, 7, 9, 6, 4, 5, 9, 6, 2],
+                data: dataValues,
                 borderColor: '#F1714F',
                 borderWidth: 0,
                 fill: true,

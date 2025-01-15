@@ -18,7 +18,15 @@ export const overViewApis = baseApis.injectEndpoints({
             }),
             providesTags: ['userGrowthOverView'],
         }),
+        getEventGrowthOverView: builder.query({
+            query: ({ data, year }) => ({
+                url: '/dashboard/business-growth',
+                method: 'GET',
+                params: { data, year }
+            }),
+            providesTags: ['eventGrowthOverView'],
+        }),
     }),
 });
 
-export const { useGetTotalOverViewQuery, useGetUserGrowthOverViewQuery } = overViewApis;
+export const { useGetTotalOverViewQuery, useGetUserGrowthOverViewQuery, useGetEventGrowthOverViewQuery } = overViewApis;

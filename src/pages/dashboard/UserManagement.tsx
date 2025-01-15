@@ -71,7 +71,7 @@ const UserManagement = () => {
                             value: "no",
                         },
                     ]}
-                    text={authId?.isBlocked ? "Active" : "Deactivate"}
+                    text={authId?.isBlocked ? "Deactivate" : "Active"}
                     handler={(status) => activeDeactivateHandler(authId?._id, status)}
                 />
             ),

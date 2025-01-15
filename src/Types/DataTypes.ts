@@ -88,11 +88,9 @@ export interface HostDataTypes {
 // feedback data types
 export interface FeedbackDataType {
     _id: string,
-    user: {
-        _id: string,
-        name: string,
-    },
-    review: string,
+    userName:string,
+    user:string,
+    feedback: string,
     createdAt: string
 }
 
