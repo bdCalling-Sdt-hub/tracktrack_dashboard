@@ -1,5 +1,3 @@
-// src/components/DashboardHome/DashboardHome.tsx
-import { useGetOverviewDataQuery } from '../../services/dashBoardHomeApiSlice' // Import the hook
 import EventGrowth from '../../components/DashboardHome/EventGrowth'
 import NewPayment from '../../components/DashboardHome/NewPayment'
 import OverviewCart from '../../components/DashboardHome/OverviewCart'
@@ -7,20 +5,18 @@ import UseGrowth from '../../components/DashboardHome/UseGrowth'
 
 const DashboardHome = () => {
   // Use the RTK Query hook to fetch the data
-  const { data, error, isLoading } = useGetOverviewDataQuery()
 
-  console.log(data)
 
   // Handle loading and error states
   if (isLoading) return <p>Loading...</p>
-  if (error) return <p>Error: {error.message}</p>
+  // if (error) return <p>Error: {error.message}</p>
 
   // Assuming the response contains an object with properties like totalUser, totalHost, etc.
   const overViewData = data
     ? [
-        { amount: data.totalUser.toString(), text: 'Total User' },
-        { amount: data.totalHost.toString(), text: 'Total Host' },
-      ]
+      { amount: data.totalUser.toString(), text: 'Total User' },
+      { amount: data.totalHost.toString(), text: 'Total Host' },
+    ]
     : []
 
   return (

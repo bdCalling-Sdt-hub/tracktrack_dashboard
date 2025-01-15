@@ -1,120 +1,126 @@
 import { useState } from "react"
 import PageHeading from "../../components/shared/PageHeading"
 import Search from "../../components/shared/Search"
-import {  Table } from "antd"
-import { HostDataTypes } from "../../Types/DataTypes"
+import { message, Table } from "antd"
 import UsernameImage from "../../components/shared/UsernameImage"
 import DropdownSelectButton from "../../components/shared/DropdownSelectButton"
+import { useGetAllHostQuery, useUpdateUserStatusMutation } from "../../Redux/api/usersApis"
+export interface IAuthId {
+    _id: string,
+    isBlocked: boolean
+}
+export interface Ihost {
+    _id: string,
+    name: string,
+    profile_image: string,
+    email: string,
+    address: string,
+    authId: IAuthId
+}
 // example data
-const data: HostDataTypes[] = [
-    {
-        user: {
-            name: "Bob Smith",
-            email: "shaharulsiyam@gmail.com",
-            profile_image: "https://via.placeholder.com/150",
-            address: "123 Main Street, Springfield, USA",
-            authId: {
-                isBlocked: false
-            }
-        },
-        totalTrack: "5",
-        totalEvent: "10"
-    },
-    {
-        user: {
-            name: "Alice Johnson",
-            email: "shaharulsiyam@gmail.com",
-            profile_image: "https://via.placeholder.com/150",
-            address: "456 Elm Street, Metropolis, USA",
-            authId: {
-                isBlocked: false
-            }
-        },
-        totalTrack: "8",
-        totalEvent: "6"
-    },
-    {
-        user: {
-            name: "Samantha Green",
-            email: "shaharulsiyam@gmail.com",
-            profile_image: "https://via.placeholder.com/150",
-            address: "789 Oak Avenue, Gotham, USA",
-            authId: {
-                isBlocked: true
-            }
-        },
-        totalTrack: "3",
-        totalEvent: "12"
-    },
-    {
-        user: {
-            name: "Daniel Adams",
-            email: "shaharulsiyam@gmail.com",
-            profile_image: "https://via.placeholder.com/150",
-            address: "321 Maple Road, Star City, USA",
-            authId: {
-                isBlocked: false
-            }
-        },
-        totalTrack: "10",
-        totalEvent: "15"
-    },
-    {
-        user: {
-            name: "Chris Evans",
-            email: "shaharulsiyam@gmail.com",
-            profile_image: "https://via.placeholder.com/150",
-            address: "654 Pine Lane, Central City, USA",
-            authId: {
-                isBlocked: false
-            }
-        },
-        totalTrack: "7",
-        totalEvent: "9"
-    }
-];
-
 const HostManagement = () => {
     // search text
     const [searchTerm, setSearchTerm] = useState('')
 
     //pagination
     const [page, setPage] = useState(1)
+    const { data, isLoading } = useGetAllHostQuery({ role: "HOST", page })
+    console.log(data);
 
-    // tabs 
+    const hosts = data?.data?.map((host: any, index: number) => ({
+        _id: host._id,
+        name: host?.authId?.name,
+        profile_image: host.profile_image || `https://i.pravatar.cc/150?img=${index}`,
+        email: host.email,
+        address: host.address || "N/A",
+        authId: {
+            _id: host.authId?._id || null,
+            isBlocked: host.authId?.isBlocked || false,
+        },
+    })) || [];
+
+
 
     // table columns
     const column = [
-        { title: 'Host', Key: 'user', dataIndex: 'user', render: (user: any) => <UsernameImage name={user?.name} email={user?.phoneNumber} image={user?.profile_image} /> },
-        { title: 'Email', Key: 'user', dataIndex: 'user', render: (user: any) => <UsernameImage name={user?.email} /> },
-        { title: 'Total Event', Key: 'totalEvent', dataIndex: 'totalEvent' },
-        { title: 'Total Track', Key: 'totalTrack', dataIndex: 'totalTrack' },
-        { title: 'Address', Key: 'user', dataIndex: 'user', render: (user: any) => <UsernameImage name={user?.address} /> },
         {
-            title: 'Status', key: 'authId', dataIndex: 'authId', render: (authId: any, record: HostDataTypes) => <DropdownSelectButton
-                options={[
-                    {
-                        key: '1',
-                        label: <p>Active</p>,
-                        value: 'active'
-                    },
-                    {
-                        key: '2',
-                        label: <p>Deactivate</p>,
-                        value: 'deactivate'
-                    }
-                ]}
-                text={authId?.isBlocked ? "Deactivate" : 'Active'}
-                handler={activeDeactivateHandler}
-            />
+            title: 'Host',
+            key: 'host',
+            dataIndex: 'name',
+            render: (name: string, record: Ihost) => (
+                <UsernameImage name={name} email={record.email} image={record.profile_image} />
+            ),
         },
-    ]
+        {
+            title: 'Email',
+            key: 'email',
+            dataIndex: 'email',
+        },
+        {
+            title: 'Total Events',
+            key: 'totalEvent',
+            dataIndex: 'totalEvent',
+            render: () => Math.floor(Math.random() * 100),
+        },
+        {
+            title: 'Total Tracks',
+            key: 'totalTrack',
+            dataIndex: 'totalTrack',
+            render: () => Math.floor(Math.random() * 50),
+        },
+        {
+            title: 'Address',
+            key: 'address',
+            dataIndex: 'address',
+        },
+        {
+            title: "Status",
+            key: "authId",
+            dataIndex: "authId",
+            render: (authId: IAuthId) => (
+                <DropdownSelectButton
+                    options={[
+                        {
+                            key: "1",
+                            label: <p>Activate</p>,
+                            value: "yes",
+                        },
+                        {
+                            key: "2",
+                            label: <p>Deactivate</p>,
+                            value: "no",
+                        },
+                    ]}
+                    text={authId?.isBlocked ? "Active" : "Deactivate"}
+                    handler={(status) => activeDeactivateHandler(authId?._id, status)}
+                />
+            ),
+        }
+    ];
 
-    // handler 
+
+    const [updateUserStatus, { isLoading: isUpdating }] = useUpdateUserStatusMutation()
+
     // active deactivate host
-    const activeDeactivateHandler = (status: String) => {
-        console.log(status)
-    }
+    // Active/Deactivate Host Handler
+    const activeDeactivateHandler = async (authId: any, status: any) => {
+        if (!authId) {
+            message.error("Invalid user ID");
+            return;
+        }
+        console.log(status);
+
+        const isBlocked = status;
+        try {
+            await updateUserStatus({ authId, isBlocked }).unwrap();
+            message.success(`User has been ${status === "no" ? "deactivated" : "activated"} successfully`);
+        } catch (error) {
+            console.error("Error updating user status:", error);
+            message.error("Failed to update user status");
+        }
+    };
+
+
     return (
         <>
             <div className="between-center gap-2 mb-4">
@@ -132,11 +138,12 @@ const HostManagement = () => {
             </div>
             <div className="bg-[var(--black-200)] p-2 rounded">
                 <Table
-                    dataSource={data || []}
+                    loading={isLoading || isUpdating}
+                    dataSource={hosts || []}
                     columns={column}
                     pagination={{
                         pageSize: 10,
-                        total: 255,
+                        total: data?.meta?.total || 0,
                         showSizeChanger: false,
                         onChange: (page) => setPage(page)
                     }}

@@ -1,97 +1,108 @@
-import { MdDelete } from "react-icons/md"
-import UsernameImage from "../../components/shared/UsernameImage"
-import { CategoryData } from "../../Types/PageProps"
-import { Input, Modal, Popconfirm, Table } from "antd"
-import PageHeading from "../../components/shared/PageHeading"
-import { useState } from "react"
-import { FaPlus, FaSearch } from "react-icons/fa"
-import { RxCross2 } from "react-icons/rx"
-import Search from "../../components/shared/Search"
-import CategoryAddModal from "../../components/CategoryPage/CategoryAddModal"
+import { useState } from "react";
+import { useDeleteCategoriesMutation, useGetAllCategoriesQuery } from "../../Redux/api/categoryApis";
+import { message, Modal, Popconfirm, Table } from "antd";
+import UsernameImage from "../../components/shared/UsernameImage";
+import { MdDelete } from "react-icons/md";
+import PageHeading from "../../components/shared/PageHeading";
+import { FaPlus } from "react-icons/fa";
+import CategoryAddModal from "../../components/CategoryPage/CategoryAddModal";
+import Search from "../../components/shared/Search";
 
-//category dummy data 
-const data: CategoryData[] = [
-    { name: 'Boosters A/B on offers', category_image: "https://via.placeholder.com/150", _id: '1' },
-    { name: 'Boosters A/B on offers', category_image: "https://via.placeholder.com/150", _id: '2' },
-    { name: 'Boosters A/B on offers', category_image: "https://via.placeholder.com/150", _id: '3' },
-    { name: 'Boosters A/B on offers', category_image: "https://via.placeholder.com/150", _id: '4' },
-]
+
 const Category = () => {
-    // states 
-    // search text
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState("");
+    const { data, isLoading, refetch } = useGetAllCategoriesQuery({ searchTerm });
+    const [deleteCategory, { isLoading: isDeleting }] = useDeleteCategoriesMutation();
 
-    // category add modal
-    const [categoryModalOpen, setCategoryModalOpen] = useState(false)
 
-    //table columns 
+    const categories =
+        data?.data?.category?.map((category: any) => ({
+            name: category?.name,
+            category_image: category?.category_image,
+            _id: category?._id,
+        })) || [];
+
+    const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+
+    const handleCategoryDelete = async (categoryId: string) => {
+        console.log(categoryId);
+
+        try {
+            await deleteCategory({ categoryId }).unwrap();
+            message.success("Category deleted successfully.");
+            refetch();
+        } catch (error) {
+            console.error("Failed to delete category:", error);
+            message.error("Failed to delete category.");
+        }
+    };
+
     const columns = [
-        { title: 'Category name', key: 'name', dataIndex: 'name' },
-        { title: 'Category Image', key: 'category_image', dataIndex: 'category_image', render: (category_image: string) => <UsernameImage image={category_image} /> },
+        { title: "Category Name", key: "name", dataIndex: "name" },
         {
-            title: 'Actions', key: '_id', dataIndex: '_id', render: (_id: string) => <Popconfirm
-                title="Confirm Deletion"
-                description="Are you sure you want to delete this category?"
-                onConfirm={() => handleCategoryDelete(_id)}
-                onCancel={() => console.log("Cancelled")}
-                okText="Yes"
-                cancelText="No"
-            >
-                <MdDelete className="cursor-pointer text-red-500 text-2xl" />
-            </Popconfirm>
+            title: "Category Image",
+            key: "category_image",
+            dataIndex: "category_image",
+            render: (category_image: string) => <UsernameImage image={category_image} />,
         },
-    ]
-
-    // handlers 
-    // category delete handler
-    const handleCategoryDelete = (_id: string) => {
-        console.log(_id)
-    }
-
+        {
+            title: "Actions",
+            key: "_id",
+            dataIndex: "_id",
+            render: (_id: string) => (
+                <Popconfirm
+                    title="Confirm Deletion"
+                    description="Are you sure you want to delete this category?"
+                    onConfirm={() => handleCategoryDelete(_id)}
+                    onCancel={() => console.log("Cancelled")}
+                    okText="Yes"
+                    cancelText="No"
+                >
+                    <MdDelete className="cursor-pointer text-red-500 text-2xl" />
+                </Popconfirm>
+            ),
+        },
+    ];
 
     return (
         <>
             <div className="between-center gap-2 mb-4">
-                {/* heading and back button */}
-                <PageHeading
-                    text="Category"
-                />
-                {/* search and add category button */}
+                {/* Heading and back button */}
+                <PageHeading text="Category" />
+                {/* Search and add category button */}
                 <div className="end-center">
-                    <Search
-                        value={searchTerm}
-                        setValue={setSearchTerm}
-                    />
+                    <Search value={searchTerm} setValue={setSearchTerm} />
                     <button
                         onClick={() => setCategoryModalOpen(true)}
                         style={{
-                            maxWidth: '220px',
-                            justifyContent: 'center',
-                            height: '44px'
+                            maxWidth: "220px",
+                            justifyContent: "center",
+                            height: "44px",
                         }}
-                        className="sidebar-button-black whitespace-nowrap">
+                        className="sidebar-button-black whitespace-nowrap"
+                    >
                         Add New Category <FaPlus />
                     </button>
                 </div>
             </div>
-            {/* category table */}
+            {/* Category table */}
             <Table
+                loading={isLoading || isDeleting}
                 columns={columns}
-                dataSource={data}
+                dataSource={categories}
+                rowKey="_id"
             />
-            {/* Category Add Modal  */}
+            {/* Category Add Modal */}
             <Modal
                 open={categoryModalOpen}
                 onCancel={() => setCategoryModalOpen(false)}
                 footer={false}
                 centered
             >
-                <CategoryAddModal
-                    closeModal={() => setCategoryModalOpen(false)}
-                />
+                <CategoryAddModal closeModal={() => setCategoryModalOpen(false)} />
             </Modal>
         </>
-    )
-}
+    );
+};
 
-export default Category
+export default Category;

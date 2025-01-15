@@ -1,42 +1,72 @@
-import { Form, FormProps, Input, Upload } from "antd"
-import { CategoryFieldType } from "../../Types/DataTypes"
-import { FaImage } from "react-icons/fa"
-import { CategoryModalProps } from "../../Types/PageProps"
+import { Form, Input, Upload, Button, message } from "antd";
+import { FaImage } from "react-icons/fa";
+import { CategoryModalProps } from "../../Types/PageProps";
+import { RcFile } from "antd/lib/upload";
+import React from "react";
+import { useAddNewCategoryMutation } from "../../Redux/api/categoryApis";
 
 const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
-    // form controller 
-    const [form] = Form.useForm()
+    const [form] = Form.useForm();
+    const [setNewData, { isLoading: isAdding }] = useAddNewCategoryMutation();
+    const [file, setFile] = React.useState<RcFile | null>(null);
+    const handleFileChange = ({ file }: { file: RcFile }) => {
+        setFile(file);
+    };
 
-    // form SubmitHandle 
-    const onFinish: FormProps<CategoryFieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
-    }
+    const onFinish = async (values: { name: string }) => {
+        if (!file) {
+            message.error("Please upload a category image");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("category_image", file);
+
+        try {
+            await setNewData(formData).unwrap();
+            message.success("Category added successfully");
+            form.resetFields();
+            setFile(null);
+            closeModal();
+        } catch (error) {
+            message.error("Failed to add category. Please try again.");
+        }
+    };
+
     return (
         <Form
             form={form}
             layout="vertical"
             onFinish={onFinish}
-            className="bg-[var(--black-200)] p-3 rounded-md "
-            autoFocus={false}
+            className="bg-[var(--black-200)] p-3 rounded-md"
         >
-            <p className="text-xl text-[var(--white-600)] text-center">Add New Category</p>
-            <Form.Item<CategoryFieldType>
-                label={<span className="text-[var(--white-600)]">category name</span>}
+            <p className="text-xl text-[var(--white-600)] text-center">
+                Add New Category
+            </p>
+
+            {/* Category Name */}
+            <Form.Item
+                label={<span className="text-[var(--white-600)]">Category Name</span>}
                 name="name"
-                rules={[{ required: true, message: 'Please input category name' }]}
+                rules={[{ required: true, message: "Please input category name" }]}
             >
-                <input className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]" />
+                <Input
+                    className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
+                />
             </Form.Item>
-            <Form.Item<CategoryFieldType>
-                label={<span className="text-[var(--white-600)]">category name</span>}
-                name="category_image"
-                rules={[{ required: true, message: 'Please input category Image' }]}
+
+            {/* Category Image */}
+            <Form.Item
+                label={<span className="text-[var(--white-600)]">Category Image</span>}
+                rules={[{ required: true, message: "Please upload a category image" }]}
             >
                 <Upload
-                    multiple={false}
-                    action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                    beforeUpload={() => false}
+                    onChange={handleFileChange}
                     listType="picture-card"
-                    className="w-full"
+                    maxCount={1}
+                    accept="image/*"
                 >
                     <div className="center-center flex-col">
                         <FaImage className="text-[var(--white-600)]" />
@@ -44,22 +74,30 @@ const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
                     </div>
                 </Upload>
             </Form.Item>
-            <div className="center-center mt-10">
-                <button onClick={() => {
-                    closeModal()
-                    form.resetFields()
-                }} className="p-2 px-4 border border-[var(--gray-600)] rounded-md text-[var(--orange-600)]">
+
+            {/* Action Buttons */}
+            <div className="center-center mt-10 flex justify-between">
+                <Button
+                    onClick={() => {
+                        closeModal();
+                        form.resetFields();
+                        setFile(null);
+                    }}
+                    className="border border-[var(--gray-600)] text-[var(--orange-600)]"
+                >
                     Cancel
-                </button>
-                <button onClick={() => {
-                    closeModal()
-                    form.resetFields()
-                }} className="p-2 px-4 border border-[var(--orange-600)] rounded-md text-[var(--white-600)] bg-[var(--orange-600)]">
+                </Button>
+                <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isAdding}
+                    className="bg-[var(--orange-600)] border-none text-[var(--white-600)]"
+                >
                     Save
-                </button>
+                </Button>
             </div>
         </Form>
-    )
-}
+    );
+};
 
-export default CategoryAddModal
+export default CategoryAddModal;
