@@ -1,4 +1,3 @@
-
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -6,19 +5,38 @@ import {
     CategoryScale,
     LinearScale,
 } from 'chart.js';
+import { useGetUserGrowthOverViewQuery } from '../../Redux/api/overViewApis';
+
 ChartJS.register(BarElement, CategoryScale, LinearScale);
+
 const UseGrowth = () => {
+    const { data: growthData, isLoading } = useGetUserGrowthOverViewQuery({ role: 'USER', year: '2024' });
+
+    if (isLoading) {
+        return <p>..loading</p>;
+    }
+
+
+    const monthlyRegistration = growthData?.data?.monthlyRegistration || {};
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const dataValues = months.map(month => monthlyRegistration[month] || 0);
+
     const data = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: months,
         datasets: [
             {
                 label: 'Monthly Data',
-                data: [12, 23, 15, 12, 15, 16, 18, 19, 10, 21, 13, 16],
+                data: dataValues,
                 backgroundColor: '#F1714F',
                 borderRadius: 5,
             },
         ],
     };
+
     const options = {
         scales: {
             y: {
@@ -44,6 +62,7 @@ const UseGrowth = () => {
         responsive: true,
         maintainAspectRatio: false,
     };
+
     return (
         <div className="p-3 bg-[var(--black-200)] rounded">
             <p className="text-base text-[var(--white-600)] font-semibold">User Growth</p>
@@ -51,7 +70,7 @@ const UseGrowth = () => {
                 <Bar data={data} options={options} />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default UseGrowth
+export default UseGrowth;

@@ -1,26 +1,23 @@
-// src/components/DashboardHome/OverviewCart.tsx
-import React from 'react'
-
-interface OverviewItem {
-  amount: string
-  text: string
-}
 
 interface OverviewCartProps {
-  data: OverviewItem
+  data: {
+    title: string;
+    totalAuth: number;
+  };
 }
 
-const OverviewCart: React.FC<OverviewCartProps> = ({ data }) => {
+const OverviewCart = ({ data }: OverviewCartProps) => {
+  const { title, totalAuth } = data;
   return (
-    <div className="w-full h-full bg-[var(--black-200)] p-3 px-10 rounded center-start flex-col">
+    <div className="w-full items-center h-full bg-[var(--black-200)] p-3 px-10 rounded flex flex-col justify-center gap-2">
       <p className="text-3xl text-[var(--white-600)] font-semibold">
-        {data?.amount}
+        {totalAuth}
       </p>
       <p className="text-sm font-medium text-[var(--white-600)]">
-        {data?.text}
+        {title}
       </p>
     </div>
-  )
-}
+  );
+};
 
-export default OverviewCart
+export default OverviewCart;

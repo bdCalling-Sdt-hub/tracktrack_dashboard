@@ -18,7 +18,9 @@ const baseApis = createApi({
     'userStatus',
     'category',
     'users',
-    'booking'
+    'booking',
+    'overView',
+    'userGrowthOverView'
   ],
   endpoints: () => ({}),
 });
