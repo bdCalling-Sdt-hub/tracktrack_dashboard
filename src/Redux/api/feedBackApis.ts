@@ -4,12 +4,19 @@ import baseApis from "../baseApi/baseApi";
 export const feedBackApis = baseApis.injectEndpoints({
     endpoints: (builder) => ({
         getTotalFeedBack: builder.query({
-            query: ({ searchTerm, page }) => ({
+            query: ({ searchTerm, page, id }) => ({
                 url: '/feedback/get-all-feedback',
                 method: 'GET',
-                params: { searchTerm, page }
+                params: { searchTerm, page, id }
             }),
             providesTags: ['feedBack'],
+        }),
+        gerSingleFeedback: builder.query({
+            query: ({ id }) => ({
+                url: '/feedback/get-feedback',
+                method: 'GET',
+                params: { id }
+            })
         }),
         deleteFeedback: builder.mutation({
             query: ({ id }) => ({
@@ -33,4 +40,9 @@ export const feedBackApis = baseApis.injectEndpoints({
     }),
 });
 
-export const { useGetTotalFeedBackQuery, useDeleteFeedbackMutation, useSendFeedbackMutation } = feedBackApis;
+export const {
+    useGetTotalFeedBackQuery,
+    useGerSingleFeedbackQuery,
+    useDeleteFeedbackMutation,
+    useSendFeedbackMutation
+} = feedBackApis;
