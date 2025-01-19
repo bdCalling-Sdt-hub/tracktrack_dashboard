@@ -22,7 +22,11 @@ const baseApis = createApi({
     'booking',
     'overView',
     'userGrowthOverView',
-    'eventGrowthOverView'
+    'eventGrowthOverView',
+    'conditions',
+    'privecy',
+    'payment',
+    'all-payment'
   ],
   endpoints: () => ({}),
 });

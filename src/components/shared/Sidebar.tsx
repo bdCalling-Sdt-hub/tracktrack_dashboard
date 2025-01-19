@@ -1,5 +1,5 @@
 import { AiOutlineMenuUnfold } from "react-icons/ai"
-import { FaUserTie } from "react-icons/fa"
+import { FaCcStripe, FaUserTie } from "react-icons/fa"
 import { IoSettingsOutline, IoSpeedometerOutline } from "react-icons/io5"
 import { LuLogOut, LuTicketCheck, LuUserRound } from "react-icons/lu"
 import { MdKeyboardArrowRight, MdOutlineFeedback } from "react-icons/md"
@@ -15,6 +15,7 @@ import {
 const adminMenus = [
     { name: 'Dashboard', icon: <IoSpeedometerOutline className="text-xl" />, path: '/' },
     { name: 'Payment', icon: <RiExchangeDollarLine className="text-xl" />, path: '/payment' },
+    { name: 'Stripe Info', icon: <FaCcStripe className="text-xl" />, path: '/stripe-info' },
     { name: 'Category', icon: <AiOutlineMenuUnfold className="text-xl" />, path: '/category' },
     { name: 'User Management', icon: <LuUserRound className="text-xl" />, path: '/user-management' },
     { name: 'Host Management', icon: <FaUserTie className="text-xl" />, path: '/host-management' },

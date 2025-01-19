@@ -4,10 +4,10 @@ import baseApis from "../baseApi/baseApi";
 export const categoryApis = baseApis.injectEndpoints({
     endpoints: (builder) => ({
         getAllBookings: builder.query({
-            query: ({ searchTerm, page }) => ({
+            query: ({ page }) => ({
                 url: '/dashboard/get-bookings',
                 method: 'GET',
-                params: { searchTerm, page },
+                params: { page },
             }),
             providesTags: ['booking'],
         }),
