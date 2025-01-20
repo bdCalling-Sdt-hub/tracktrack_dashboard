@@ -1,54 +1,94 @@
-// src/components/Otp/Otp.tsx
-import React, { useState } from 'react'
-import { Form, Input, Button, Row, Col } from 'antd'
-import { useVerifyOtpMutation } from '../../services/authForgetPasswordSlice' // Import the verify OTP hook
-import { OtpFieldType } from '../../Types/DataTypes' // Assuming you have this defined
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
+import { Form, Input, Button } from "antd";
+import { FormProps } from "antd/lib/form";
+import { OtpFieldType } from "../../Types/DataTypes";
+import { useNavigate } from "react-router-dom";
+import { useVerifyOtpMutation } from "../../Redux/api/authApis";
 
-const Otp = () => {
-  const [error, setError] = useState<string | null>(null)
-  const [otp, setOtp] = useState<string>('') // Store OTP value in state
-  const [verifyOtp, { isLoading }] = useVerifyOtpMutation() // RTK Query mutation hook for verifying OTP
-  const navigate = useNavigate()
+interface OtpInputProps {
+  length: number;
+  onChange: (otp: string) => void;
+}
 
-  const onFinish: FormProps<OtpFieldType>['onFinish'] = async () => {
-    const email = localStorage.getItem('email') // Retrieve the email from localStorage
-    console.log('Submitting OTP:', otp) // Log OTP value being submitted
+const OtpInput: React.FC<OtpInputProps> = ({ length, onChange }) => {
+  const [otpArray, setOtpArray] = useState<string[]>(Array(length).fill(""));
 
-    if (!email) {
-      setError('Email not found. Please try again.')
-      return
+  const handleChange = (value: string, index: number) => {
+    if (!/\d/.test(value) && value !== "") return;
+    const newOtpArray = [...otpArray];
+    newOtpArray[index] = value;
+    setOtpArray(newOtpArray);
+
+    if (value && index < length - 1) {
+      const nextInput = document.getElementById(
+        `otp-input-${index + 1}`
+      ) as HTMLInputElement;
+      if (nextInput) nextInput.focus();
     }
 
-    try {
-      const response = await verifyOtp({ email, code: otp }).unwrap()
+    onChange(newOtpArray.join(""));
+  };
 
-      console.log('Backend response:', response) // Log the backend response for debugging
-
-      if (response.success) {
-        // Redirect to reset password page on successful verification
-        navigate('/reset-password')
-      } else {
-        setError(response.message)
-      }
-    } catch (err) {
-      console.error('Error during OTP verification:', err) // Log error for debugging
-      setError('OTP verification failed. Please try again.')
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.key === "Backspace" && !otpArray[index] && index > 0) {
+      const prevInput = document.getElementById(
+        `otp-input-${index - 1}`
+      ) as HTMLInputElement;
+      if (prevInput) prevInput.focus();
     }
-  }
-
-  const handleOtpChange = (value: string) => {
-    // Handle OTP change
-    if (value.length <= 6) {
-      setOtp(value) // Update OTP state when user types
-    }
-  }
+  };
 
   return (
-    <div className="center-center bg-[#959596] h-screen flex items-center justify-center">
+    <div
+      className="otp-input-container"
+      style={{ display: "flex", gap: "8px" }}
+    >
+      {otpArray.map((_, index) => (
+        <Input
+          key={index}
+          id={`otp-input-${index}`}
+          value={otpArray[index]}
+          maxLength={1}
+          onChange={(e) => handleChange(e.target.value, index)}
+          onKeyDown={(e) => handleKeyDown(e, index)}
+          style={{ width: "40px", textAlign: "center" }}
+        />
+      ))}
+    </div>
+  );
+};
+
+const Otp: React.FC = () => {
+  const [error, setError] = useState<string | null>(null);
+  const [otp, setOtp] = useState<string>("");
+  const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
+  const navigate = useNavigate();
+
+  const onFinish: FormProps<OtpFieldType>["onFinish"] = async () => {
+    const email = localStorage.getItem("email");
+    console.log("Submitting OTP:", otp);
+    const data = {
+      email: email,
+      code: otp,
+    };
+    try {
+      const response = await verifyOtp(data).unwrap();
+      console.log("OTP Verified:", response);
+      navigate("/reset-password");
+    } catch (err) {
+      console.error(err);
+      setError("Invalid OTP. Please try again.");
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center h-screen bg-gray-300">
       <Form
-        style={{ minWidth: '500px' }}
-        className="bg-[var(--black-100)] p-4 rounded-md"
+        style={{ minWidth: "500px" }}
+        className="bg-white shadow-md p-6 rounded-md w-full max-w-md"
         onFinish={onFinish}
         layout="vertical"
       >
@@ -56,32 +96,13 @@ const Otp = () => {
 
         {error && <p className="text-red-500 text-center">{error}</p>}
 
-        {/* OTP Input Fields (6 individual fields) */}
+        {/* OTP Input Fields */}
         <Form.Item
           name="otp"
-          rules={[{ required: true, message: 'OTP is required' }]}
+          rules={[{ required: true, message: "OTP is required" }]}
+          className="flex items-center justify-center w-full"
         >
-          <Row gutter={8}>
-            {[...Array(6)].map((_, index) => (
-              <Col span={4} key={index}>
-                <Input
-                  maxLength={1}
-                  value={otp[index] || ''}
-                  onChange={(e) => {
-                    const updatedOtp = otp.split('')
-                    updatedOtp[index] = e.target.value
-                    handleOtpChange(updatedOtp.join('')) // Update OTP state
-                  }}
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                    textAlign: 'center',
-                    marginRight: '8px',
-                  }}
-                />
-              </Col>
-            ))}
-          </Row>
+          <OtpInput length={6} onChange={(e) => setOtp(e)} />
         </Form.Item>
 
         <Button
@@ -89,13 +110,13 @@ const Otp = () => {
           htmlType="submit"
           className="w-full"
           disabled={isLoading}
-          style={{ backgroundColor: '#F1714F', padding: '20px' }}
+          style={{ backgroundColor: "#F1714F", padding: "20px" }}
         >
-          {isLoading ? 'Verifying OTP...' : 'Verify OTP'}
+          {isLoading ? "Verifying OTP..." : "Verify OTP"}
         </Button>
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default Otp
+export default Otp;

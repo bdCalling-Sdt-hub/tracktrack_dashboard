@@ -26,7 +26,8 @@ const baseApis = createApi({
     'conditions',
     'privecy',
     'payment',
-    'all-payment'
+    'all-payment',
+    'profile'
   ],
   endpoints: () => ({}),
 });

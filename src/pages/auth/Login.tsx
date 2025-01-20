@@ -1,84 +1,91 @@
-import { useState } from 'react'
-import { Form, Input, FormProps } from 'antd'
-import { useLoginMutation } from '../../services/authApiSlice' // Import the login hook
-import { LoginFieldType } from '../../Types/DataTypes'
-import { Link, useNavigate } from 'react-router-dom' // Import useNavigate for React Router v6
+import { useState } from "react";
+import { Form, Input } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { usePostLoginInofMutation } from "../../Redux/api/authApis";
 
 const Login = () => {
-  const [error, setError] = useState<string | null>(null)
-  const [login, { isLoading }] = useLoginMutation() // RTK Query mutation hook for login
-  const navigate = useNavigate() // useNavigate hook to navigate after login
+  const [error, setError] = useState<string | null>(null);
+  const [login, { isLoading }] = usePostLoginInofMutation();
+  const navigate = useNavigate();
 
-  const onFinish: FormProps<LoginFieldType>['onFinish'] = async (values) => {
-    const { email, password } = values
+  const onFinish = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
     try {
-      const response = await login({ email, password }).unwrap()
-
+      const response = await login({ email, password }).unwrap();
       if (response.success) {
-        // Store the tokens in localStorage
-        localStorage.setItem('accessToken', response.data.accessToken)
-        localStorage.setItem('refreshToken', response.data.refreshToken)
-
-        // Redirect to the dashboard after successful login
-        navigate('/') // Use navigate to go to the dashboard page
+        localStorage.setItem("accessToken", response.data.accessToken);
+        localStorage.setItem("refreshToken", response.data.refreshToken);
+        navigate("/");
       } else {
-        setError(response.message)
+        setError(response.message || "Login failed. Please try again.");
       }
-    } catch (err) {
-      setError('Login failed. Please try again.')
+    } catch (err: any) {
+      setError(err?.data?.message || "Login failed. Please try again.");
     }
-  }
+  };
 
   return (
-    <div className="center-center bg-[var(--black-100)] h-screen">
+    <div className="flex items-center justify-center h-screen bg-gray-300">
       <Form
-        style={{ minWidth: '500px' }}
-        className="bg-[var(--black-100)] p-4 rounded-md"
+        className="bg-white shadow-md p-6 rounded-md w-full max-w-md"
         onFinish={onFinish}
         layout="vertical"
       >
-        <p className="text-center text-3xl uppercase">Login</p>
-        {error && <p className="text-red-400  text-center">{error}</p>}
+        <h2 className="text-center text-2xl font-semibold text-black mb-6">
+          Login
+        </h2>
+
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <Form.Item
           name="email"
-          label="Email"
-          rules={[{ required: true, message: 'Email is required' }]}
+          label={<span className="bg-white text-black">Email</span>}
+          rules={[{ required: true, message: "Email is required" }]}
         >
           <Input
             type="email"
-            placeholder="Email"
-            className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
+            placeholder="Enter your email"
+            className="h-11 bg-white text-black rounded px-3 focus:outline-none focus:ring focus:ring-orange-500"
           />
         </Form.Item>
 
         <Form.Item
           name="password"
-          label="Password"
-          rules={[{ required: true, message: 'Password is required' }]}
+          label={<span className="text-black">Password</span>}
+          rules={[{ required: true, message: "Password is required" }]}
         >
           <Input.Password
-            placeholder="Password"
-            className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
+            placeholder="Enter your password"
+            className="h-11 bg-white text-black rounded px-3 focus:outline-none focus:ring focus:ring-orange-500"
           />
         </Form.Item>
 
         <button
-          className="sidebar-button-orange"
-          style={{ justifyContent: 'center' }}
+          type="submit"
+          className={`w-full py-2 mt-4 rounded text-black font-medium ${
+            isLoading
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-orange-500 hover:bg-orange-400"
+          }`}
           disabled={isLoading}
         >
-          {isLoading ? 'Logging in...' : 'Login'}
+          {isLoading ? "Logging in..." : "Login"}
         </button>
-        <p className="mt-2 text-center">
-          Forgot your password?{' '}
-          <Link to={`/forget-password`} className="underline">
+
+        <p className="mt-4 text-center text-black">
+          Forgot your password?{" "}
+          <Link to="/forget-password" className="text-orange-500 underline">
             Reset password
           </Link>
         </p>
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

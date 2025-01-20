@@ -2,20 +2,17 @@ import React from "react";
 import UsernameImage from "../shared/UsernameImage";
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { PaymentData, User, Event } from "../../Types/DataTypes";
 import { PaymentTableProps } from "../../Types/PageProps";
 import { useGetAllPaymentQuery } from "../../Redux/api/paymentApis";
+import { PaymentData } from "../../pages/dashboard/Payment";
 
 const PaymentTable: React.FC<PaymentTableProps> = ({
-  data,
   pagination,
   tab = "track",
-  searchTerm,
 }) => {
   const { data: paymentData, isLoading: payLo } = useGetAllPaymentQuery({
     businessType: tab,
     page: pagination,
-    searchTerm,
   });
 
   if (payLo) {
@@ -23,12 +20,12 @@ const PaymentTable: React.FC<PaymentTableProps> = ({
   }
 
   const paymentDataInformation: PaymentData[] =
-    paymentData?.data?.result?.map((payment: Payment) => ({
+    paymentData?.data?.result?.map((payment: PaymentData) => ({
       key: payment._id,
       host: {
-        name: "Host Placeholder",
-        profile_image: "https://via.placeholder.com/150",
-        phoneNumber: "0000000000",
+        name: payment?.host?.name || "N/A",
+        profile_image: payment?.host?.profile_image,
+        phoneNumber: payment?.host?.phoneNumber || "N/A",
       },
       user: {
         name: payment?.user?.name || "N/A",

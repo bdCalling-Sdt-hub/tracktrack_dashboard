@@ -31,7 +31,7 @@ interface Event {
   eventName: string | null;
 }
 
-interface PaymentData {
+export interface PaymentData {
   _id: string;
   host: Host;
   user?: User | null;
@@ -99,7 +99,7 @@ const Payment: React.FC = () => {
       title: "Host Name",
       dataIndex: "host",
       key: "host",
-      render: (host: Host) => (
+      render: (host) => (
         <UsernameImage
           image={host?.profile_image}
           name={host?.name}

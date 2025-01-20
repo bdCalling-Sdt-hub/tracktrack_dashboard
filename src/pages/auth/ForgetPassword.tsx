@@ -1,42 +1,45 @@
-// src/components/ForgetPassword/ForgetPassword.tsx
-import { useState } from 'react'
-import { Form, Input, FormProps } from 'antd'
-import { useForgotPasswordMutation } from '../../services/authForgetPasswordSlice' // Import the forgot password hook
-import { LoginFieldType } from '../../Types/DataTypes' // Assuming you have this defined
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
+import { Form, Input, FormProps, message } from "antd";
+import { useNavigate } from "react-router-dom";
+import { useForgetEmailPostMutation } from "../../Redux/api/authApis";
+
+interface LoginFieldType {
+  email: string;
+}
 
 const ForgetPassword = () => {
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null);
+  const [forgotPassword, { isLoading }] = useForgetEmailPostMutation();
+  const navigate = useNavigate();
 
-  const [forgotPassword, { isLoading }] = useForgotPasswordMutation() // RTK Query mutation hook for forgot password
-  const navigate = useNavigate()
-
-  const onFinish: FormProps<LoginFieldType>['onFinish'] = async (values) => {
-    const { email } = values
-
+  const onFinish: FormProps<LoginFieldType>["onFinish"] = async (values) => {
+    const { email } = values;
+    const emailData = {
+      email: email,
+    };
     try {
-      const response = await forgotPassword({ email }).unwrap() // Call unwrap() to get the raw response
-
-      console.log('Response:', response) // Log the response for debugging
-
+      const response = await forgotPassword(emailData).unwrap();
       if (response.success) {
-        // Store email in localStorage to pass it to the OTP page
-        localStorage.setItem('email', email)
-        navigate('/otp') // Navigate to OTP page
+        message.info("Look on your eamil for OTP");
+        localStorage.setItem("email", email);
+        navigate("/otp");
       } else {
-        setError(response.message) // Set the error message
+        setError(response.message || "An unexpected error occurred.");
+        message.error("something went wrong!");
       }
-    } catch (err) {
-      console.error('Request failed:', err) // Log the error for debugging
-      setError('Request failed. Please try again.')
+    } catch (err: any) {
+      console.error("Request failed:", err);
+      setError(
+        err?.data?.message || "Something went wrong. Please try again later."
+      );
     }
-  }
+  };
 
   return (
-    <div className="center-center bg-[var(--black-100)] h-screen">
+    <div className="flex items-center justify-center h-screen bg-gray-300">
       <Form
-        style={{ minWidth: '500px' }}
-        className="bg-[var(--black-100)] p-4 rounded-md"
+        style={{ minWidth: "500px" }}
+        className="bg-white shadow-md p-6 rounded-md w-full max-w-md"
         onFinish={onFinish}
         layout="vertical"
       >
@@ -47,25 +50,28 @@ const ForgetPassword = () => {
         <Form.Item
           name="email"
           label="Email"
-          rules={[{ required: true, message: 'Email is required' }]}
+          rules={[
+            { required: true, message: "Email is required" },
+            { type: "email", message: "Enter a valid email address" },
+          ]}
         >
           <Input
             type="email"
             placeholder="Email"
-            className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
+            className="h-11 bg-white text-black rounded px-3 focus:outline-none focus:ring focus:ring-orange-500"
           />
         </Form.Item>
 
         <button
           className="sidebar-button-orange"
-          style={{ justifyContent: 'center' }}
+          style={{ justifyContent: "center" }}
           disabled={isLoading}
         >
-          {isLoading ? 'Sending OTP...' : 'Send Verify OTP'}
+          {isLoading ? "Sending OTP..." : "Send Verify OTP"}
         </button>
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default ForgetPassword
+export default ForgetPassword;
