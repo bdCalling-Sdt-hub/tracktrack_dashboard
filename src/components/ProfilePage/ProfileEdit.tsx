@@ -40,6 +40,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ image, data }) => {
 
   return (
     <Form
+      requiredMark={false}
       form={form}
       onFinish={onFinish}
       layout="vertical"
@@ -61,6 +62,15 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ image, data }) => {
         ]}
       >
         <input
+          style={{
+            width: "100%",
+            height: 40,
+            border: "none",
+            borderRadius: "5px",
+            color: "#111",
+            backgroundColor: "#fff",
+            outline: "none",
+          }}
           placeholder="Name"
           className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
         />
@@ -68,6 +78,15 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ image, data }) => {
 
       <Form.Item name="email" label="Email">
         <input
+          style={{
+            width: "100%",
+            height: 40,
+            border: "none",
+            borderRadius: "5px",
+            color: "#111",
+            backgroundColor: "#fff",
+            outline: "none",
+          }}
           disabled
           type="email"
           placeholder="Email"
@@ -86,6 +105,15 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ image, data }) => {
         ]}
       >
         <input
+          style={{
+            width: "100%",
+            height: 40,
+            border: "none",
+            borderRadius: "5px",
+            color: "#111",
+            backgroundColor: "#fff",
+            outline: "none",
+          }}
           placeholder="Phone Number"
           className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
         />
@@ -102,6 +130,15 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ image, data }) => {
         ]}
       >
         <input
+          style={{
+            width: "100%",
+            height: 40,
+            border: "none",
+            borderRadius: "5px",
+            color: "#111",
+            backgroundColor: "#fff",
+            outline: "none",
+          }}
           placeholder="Address"
           className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
         />

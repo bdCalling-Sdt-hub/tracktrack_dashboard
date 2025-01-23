@@ -24,7 +24,7 @@ const ChangePassword = () => {
     }
   };
   return (
-    <Form form={form} onFinish={onFinish} layout="vertical">
+    <Form requiredMark={false} form={form} onFinish={onFinish} layout="vertical">
       <Form.Item<userChangePassword>
         name="oldPassword"
         label="Old Password"
@@ -36,8 +36,17 @@ const ChangePassword = () => {
         ]}
       >
         <Input.Password
+          style={{
+            width: "100%",
+            height: 40,
+            border: "none",
+            borderRadius: "5px",
+            color: "#111",
+            backgroundColor: "#fff",
+            outline: "none",
+          }}
           placeholder="name"
-          className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
+          className=" placeholder:text-white p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
         />
       </Form.Item>
 
@@ -52,6 +61,15 @@ const ChangePassword = () => {
         ]}
       >
         <Input.Password
+          style={{
+            width: "100%",
+            height: 40,
+            border: "none",
+            borderRadius: "5px",
+            color: "#111",
+            backgroundColor: "#fff",
+            outline: "none",
+          }}
           placeholder="email"
           className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
         />
@@ -68,6 +86,15 @@ const ChangePassword = () => {
         ]}
       >
         <Input.Password
+          style={{
+            width: "100%",
+            height: 40,
+            border: "none",
+            borderRadius: "5px",
+            color: "#111",
+            backgroundColor: "#fff",
+            outline: "none",
+          }}
           placeholder="phone number"
           className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] active:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]"
         />

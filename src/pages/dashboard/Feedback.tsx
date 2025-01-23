@@ -13,8 +13,8 @@ import {
 } from "../../Redux/api/feedBackApis";
 
 const Feedback = () => {
-  const [searchTerm, setSearchTerm] = useState<string>(""); // Typed searchTerm state
-  const [page, setPage] = useState<number>(1); // Typed page state
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
   const [selectedFeedbackId, setSelectedFeedbackId] = useState<string | null>(
     null
   );
@@ -25,7 +25,7 @@ const Feedback = () => {
   } = useGetTotalFeedBackQuery({ searchTerm, page });
   const [deleteFeedback, { isLoading: isDeleting }] =
     useDeleteFeedbackMutation();
-  const [open, setOpen] = useState<boolean>(false); // Typed modal state
+  const [open, setOpen] = useState<boolean>(false);
 
   if (feedBackLoading || isDeleting) {
     return <p>...loading</p>;
@@ -45,8 +45,8 @@ const Feedback = () => {
   };
 
   const handleReplyClick = (id: string) => {
-    setSelectedFeedbackId(id); // Store the selected feedback ID
-    setOpen(true); // Open the modal
+    setSelectedFeedbackId(id);
+    setOpen(true);
   };
 
   return (
