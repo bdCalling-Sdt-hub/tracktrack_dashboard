@@ -1,19 +1,21 @@
-import { Form, Input, Upload, Button, message, Spin } from "antd";
+import { Form, Input, Upload, Button, message, Spin, UploadFile } from "antd";
 import { FaImage } from "react-icons/fa";
 import { CategoryModalProps } from "../../Types/PageProps";
 import { RcFile } from "antd/lib/upload";
 import React from "react";
 import { useAddNewCategoryMutation } from "../../Redux/api/categoryApis";
 import { LoadingOutlined } from "@ant-design/icons";
+import { UploadChangeParam } from "antd/es/upload";
 
 const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
   const [form] = Form.useForm();
   const [setNewData, { isLoading: isAdding }] = useAddNewCategoryMutation();
   const [file, setFile] = React.useState<RcFile | null>(null);
+  const [fileList, setFileList] = React.useState<UploadFile[]>([]);
 
-  const handleFileChange = ({ file }: { file: any }) => {
-    console.log(file);
-    setFile(file);
+  const handleFileChange = ({ fileList }: UploadChangeParam) => {
+    setFileList(fileList);
+    setFile(fileList.length ? (fileList[0].originFileObj as RcFile) : null);
   };
 
   const onFinish = async (values: { name: string }) => {
@@ -28,9 +30,10 @@ const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
 
     try {
       await setNewData(formData).unwrap();
-      message.success("Category added successfully");
       form.resetFields();
       setFile(null);
+      setFileList([]);
+      message.success("Category added successfully");
       closeModal();
     } catch (error) {
       message.error("Failed to add category. Please try again.");
@@ -68,6 +71,7 @@ const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
           listType="picture-card"
           maxCount={1}
           accept="image/*"
+          fileList={fileList} // Explicitly control file list
         >
           <div className="center-center flex-col">
             <FaImage className="text-[var(--white-600)]" />
@@ -83,6 +87,7 @@ const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
             closeModal();
             form.resetFields();
             setFile(null);
+            setFileList([]); // Clear uploaded file list on cancel
           }}
           className="border border-[var(--gray-600)] text-[var(--orange-600)]"
         >

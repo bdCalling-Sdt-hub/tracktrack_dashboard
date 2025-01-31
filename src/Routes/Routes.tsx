@@ -16,10 +16,16 @@ import ForgetPassword from "../pages/auth/ForgetPassword";
 import Otp from "../pages/auth/Otp";
 import ResetPassword from "../pages/auth/ResetPassword";
 import SrtipeInfo from "../pages/dashboard/SrtipeInfo";
+import PrivateRoute from "./PrivetRoute";
+
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: [
       { path: "/", element: <DashboardHome /> },
       { path: "/payment", element: <Payment /> },

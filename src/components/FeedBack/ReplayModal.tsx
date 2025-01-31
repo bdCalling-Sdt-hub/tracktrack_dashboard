@@ -16,9 +16,9 @@ const ReplayModal = ({ feedbackId }: ReplayModalProps) => {
   const { data, isLoading } = useGerSingleFeedbackQuery({ id: feedbackId });
 
   if (isLoading) {
-    return <p>..laoding</p>;
+    return <Spin size="small"></Spin>;
   }
-  console.log(data?.data?.userName);
+
   const { userName, feedback } = data?.data;
   const feedBackHandle = async (id: string, replay: string) => {
     if (!id) {
@@ -32,6 +32,7 @@ const ReplayModal = ({ feedbackId }: ReplayModalProps) => {
 
     try {
       await sendFeedBack({ id, replay }).unwrap();
+      setValue("");
       message.success("Reply sent successfully");
     } catch (error) {
       console.error("Error sending feedback:", error);

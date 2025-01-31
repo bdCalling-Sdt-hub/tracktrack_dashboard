@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FeedbackDataType } from "../../Types/DataTypes";
 import PageHeading from "../../components/shared/PageHeading";
 import Search from "../../components/shared/Search";
-import { message, Modal, Pagination, Popconfirm } from "antd";
+import { message, Modal, Pagination, Popconfirm, Spin } from "antd";
 import { MdDelete } from "react-icons/md";
 import { FaReply } from "react-icons/fa";
 import ReplayModal from "../../components/FeedBack/ReplayModal";
@@ -28,7 +28,7 @@ const Feedback = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   if (feedBackLoading || isDeleting) {
-    return <p>...loading</p>;
+    return <Spin size="small"></Spin>;
   }
 
   const feedbacks = feedBackData?.data?.result || [];

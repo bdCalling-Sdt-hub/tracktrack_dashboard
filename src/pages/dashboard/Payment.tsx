@@ -50,7 +50,7 @@ const Payment: React.FC = () => {
   const [tab, setTab] = useState<(typeof Tabs)[number]>("track");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const { data: paymentData, isLoading: payLo } = useGetAllPaymentQuery({
+  const { data: paymentData, isLoading: payLoading } = useGetAllPaymentQuery({
     businessType: tab,
     page: currentPage,
     searchTerm,
@@ -153,10 +153,6 @@ const Payment: React.FC = () => {
     },
   ];
 
-  if (payLo) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <div className="bg-[var(--black-200)] p-2 rounded-md text-[var(--white-600)]">
       <PageHeading text="Payment" />
@@ -180,6 +176,7 @@ const Payment: React.FC = () => {
         ))}
       </div>
       <Table
+        loading={payLoading}
         className="mt-2"
         dataSource={paymentDataInformation}
         columns={columns}
