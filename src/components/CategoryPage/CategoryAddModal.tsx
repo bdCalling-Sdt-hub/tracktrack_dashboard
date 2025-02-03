@@ -23,7 +23,7 @@ const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
       message.error("Please upload a category image");
       return;
     }
-
+// add
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("category_image", file);
@@ -45,24 +45,28 @@ const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
       form={form}
       layout="vertical"
       onFinish={onFinish}
-      className="bg-[var(--black-200)] p-3 rounded-md"
+      className=" p-3 rounded-md"
     >
-      <p className="text-xl text-[var(--white-600)] text-center">
-        Add New Category
-      </p>
+      <p className="text-xl  text-center">Add New Category</p>
 
       {/* Category Name */}
       <Form.Item
-        label={<span className="text-[var(--white-600)]">Category Name</span>}
+        label={<span className="">Category Name</span>}
         name="name"
         rules={[{ required: true, message: "Please input category name" }]}
       >
-        <Input className="bg-[var(--black-600)] p-2 w-full outline-none focus:bg-[var(--black-700)] hover:bg-[var(--black-700)] border-none h-11 text-[var(--white-600)]" />
+        <Input
+          style={{
+            border: "1px solid #111",
+            background: "red",
+          }}
+          className=" p-2 w-full h-12 border bg-red-500 border-black"
+        />
       </Form.Item>
 
       {/* Category Image */}
       <Form.Item
-        label={<span className="text-[var(--white-600)]">Category Image</span>}
+        label={<span className="">Category Image</span>}
         rules={[{ required: true, message: "Please upload a category image" }]}
       >
         <Upload
@@ -74,8 +78,8 @@ const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
           fileList={fileList} // Explicitly control file list
         >
           <div className="center-center flex-col">
-            <FaImage className="text-[var(--white-600)]" />
-            <p className="text-[var(--white-600)]">Upload Image</p>
+            <FaImage className="" />
+            <p className="">Upload Image</p>
           </div>
         </Upload>
       </Form.Item>
@@ -89,7 +93,7 @@ const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
             setFile(null);
             setFileList([]); // Clear uploaded file list on cancel
           }}
-          className="border border-[var(--gray-600)] text-[var(--orange-600)]"
+          className="border "
         >
           Cancel
         </Button>
@@ -97,7 +101,7 @@ const CategoryAddModal = ({ closeModal }: CategoryModalProps) => {
           type="primary"
           htmlType="submit"
           loading={isAdding}
-          className="bg-[var(--orange-600)] border-none text-[var(--white-600)]"
+          className=" border-none "
         >
           {isAdding ? (
             <Spin indicator={<LoadingOutlined spin />} size="small" />
