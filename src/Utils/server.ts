@@ -1,4 +1,4 @@
-export const url = `http://10.0.60.26:8001`
+export const url = `http://209.97.134.184:8001`
 export const imageUrl = (image?: string) => {
     return image ? image?.startsWith(`http`) ? image : image?.startsWith('/') ? `${url}${image}` : `${url}/${image}` : `https://placehold.co/400`
 }
