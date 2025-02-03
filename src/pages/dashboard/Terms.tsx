@@ -10,7 +10,8 @@ import {
 const Terms = () => {
   const [content, setContent] = useState("");
   const { data, isLoading } = useGetConditionsQuery({});
-  const [setDescription, { isLoading: isSubmitting, isSuccess, isError }] = usePostConditionsMutation();
+  const [setDescription, { isLoading: isSubmitting }] =
+    usePostConditionsMutation();
 
   useEffect(() => {
     if (data?.data?.description) {

@@ -20,6 +20,27 @@ export interface Ihost {
   address: string;
   authId: IAuthId;
 }
+
+export interface Host {
+  _id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  profile_image?: string;
+  address?: string;
+  authId: {
+    _id: string | null;
+    isBlocked: boolean;
+    name: string;
+    email: string;
+    role: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  };
+}
 // example data
 const HostManagement = () => {
   // search text
@@ -32,10 +53,9 @@ const HostManagement = () => {
     role: "HOST",
     page,
   });
-  console.log(data);
 
-  const hosts =
-    data?.data?.map((host: any, index: number) => ({
+  const hosts: Host[] =
+    data?.data?.map((host: Host, index: number) => ({
       _id: host._id,
       name: host?.authId?.name,
       profile_image:
@@ -43,8 +63,8 @@ const HostManagement = () => {
       email: host.email,
       address: host.address || "N/A",
       authId: {
-        _id: host.authId?._id || null,
-        isBlocked: host.authId?.isBlocked || false,
+        _id: host?.authId?._id || null,
+        isBlocked: host?.authId?.isBlocked || false,
       },
     })) || [];
 
@@ -54,7 +74,7 @@ const HostManagement = () => {
       title: "Host",
       key: "host",
       dataIndex: "name",
-      render: (name: string, record: Ihost) => (
+      render: (name: string, record: Host) => (
         <UsernameImage
           name={name}
           email={record.email}
@@ -100,7 +120,7 @@ const HostManagement = () => {
   const [updateUserStatus, { isLoading: isUpdating }] =
     useUpdateUserStatusMutation();
 
-  const activeDeactivateHandler = async (authId: any, status: any) => {
+  const activeDeactivateHandler = async (authId: string, status: string) => {
     if (!authId) {
       message.error("Invalid user ID");
       return;

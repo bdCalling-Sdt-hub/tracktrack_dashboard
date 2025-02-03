@@ -13,7 +13,7 @@ const SrtipeInfo = () => {
   console.log(data);
 
   const hosts =
-    data?.data.result?.map((host, index) => ({
+    data?.data.result?.map((host: any, index: any) => ({
       _id: host?._id,
       name: host?.host?.name || "N/A",
       profile_image:
@@ -33,7 +33,7 @@ const SrtipeInfo = () => {
       title: "Host",
       key: "host",
       dataIndex: "name",
-      render: (name, record) => (
+      render: (name: any, record: any) => (
         <UsernameImage
           name={name}
           email={record?.email}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { notification } from "antd";
 import PageHeading from "../../components/shared/PageHeading";
@@ -26,7 +27,7 @@ const Terms = () => {
         message: "Success",
         description: "Terms & Conditions updated successfully!",
       });
-    } catch (error) {
+    } catch (error:any) {
       notification.error({
         message: "Error",
         description: "Failed to update Terms & Conditions. Please try again.",
