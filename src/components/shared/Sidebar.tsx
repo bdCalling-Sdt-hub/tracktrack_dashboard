@@ -11,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '../ui/accordion';
+import logo from '../../assets/brand_logo.svg';
 // menus link
 const adminMenus = [
   {
@@ -73,7 +74,7 @@ const Sidebar = () => {
   return (
     <div className="start-start  flex-col bg-[var(--black-200)] h-full overflow-y-scroll p-3">
       {/* logo */}
-      <p className="center-center text-4xl mb-3 text-white uppercase">logo</p>
+      <img src={logo} alt="logo" className='h-16 mb-4' />
       {/* map the admin menus  */}
       {adminMenus?.map((item) => (
         <NavLink

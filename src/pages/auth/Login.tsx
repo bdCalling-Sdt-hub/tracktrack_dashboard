@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Form, Input } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import { usePostLoginInofMutation } from "../../Redux/api/authApis";
-
+import { useState } from 'react';
+import { Form, Input } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { usePostLoginInofMutation } from '../../Redux/api/authApis';
+import logo from '../../assets/brand_logo.svg';
 const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const [login, { isLoading }] = usePostLoginInofMutation();
@@ -18,14 +18,14 @@ const Login = () => {
     try {
       const response = await login({ email, password }).unwrap();
       if (response.success) {
-        localStorage.setItem("accessToken", response.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.refreshToken);
-        navigate("/");
+        localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+        navigate('/');
       } else {
-        setError(response.message || "Login failed. Please try again.");
+        setError(response.message || 'Login failed. Please try again.');
       }
     } catch (err: any) {
-      setError(err?.data?.message || "Login failed. Please try again.");
+      setError(err?.data?.message || 'Login failed. Please try again.');
     }
   };
 
@@ -45,7 +45,7 @@ const Login = () => {
         <Form.Item
           name="email"
           label={<span className="bg-white text-black">Email</span>}
-          rules={[{ required: true, message: "Email is required" }]}
+          rules={[{ required: true, message: 'Email is required' }]}
         >
           <Input
             type="email"
@@ -57,7 +57,7 @@ const Login = () => {
         <Form.Item
           name="password"
           label={<span className="text-black">Password</span>}
-          rules={[{ required: true, message: "Password is required" }]}
+          rules={[{ required: true, message: 'Password is required' }]}
         >
           <Input.Password
             placeholder="Enter your password"
@@ -69,16 +69,16 @@ const Login = () => {
           type="submit"
           className={`w-full py-2 mt-4 rounded text-black font-medium ${
             isLoading
-              ? "bg-gray-500 cursor-not-allowed"
-              : "bg-orange-500 hover:bg-orange-400"
+              ? 'bg-gray-500 cursor-not-allowed'
+              : 'bg-orange-500 hover:bg-orange-400'
           }`}
           disabled={isLoading}
         >
-          {isLoading ? "Logging in..." : "Login"}
+          {isLoading ? 'Logging in...' : 'Login'}
         </button>
 
         <p className="mt-4 text-center text-black">
-          Forgot your password?{" "}
+          Forgot your password?{' '}
           <Link to="/forget-password" className="text-orange-500 underline">
             Reset password
           </Link>
