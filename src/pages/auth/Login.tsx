@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Form, Input } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { usePostLoginInofMutation } from '../../Redux/api/authApis';
-import logo from '../../assets/brand_logo.svg';
+
 const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const [login, { isLoading }] = usePostLoginInofMutation();
