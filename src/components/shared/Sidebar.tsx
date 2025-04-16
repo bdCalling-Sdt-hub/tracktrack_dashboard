@@ -1,65 +1,65 @@
-import { AiOutlineMenuUnfold } from "react-icons/ai";
-import { FaCcStripe, FaUserTie } from "react-icons/fa";
-import { IoSettingsOutline, IoSpeedometerOutline } from "react-icons/io5";
-import { LuLogOut, LuTicketCheck, LuUserRound } from "react-icons/lu";
-import { MdKeyboardArrowRight, MdOutlineFeedback } from "react-icons/md";
-import { RiExchangeDollarLine } from "react-icons/ri";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { AiOutlineMenuUnfold } from 'react-icons/ai';
+import { FaCcStripe, FaUserTie } from 'react-icons/fa';
+import { IoSettingsOutline, IoSpeedometerOutline } from 'react-icons/io5';
+import { LuLogOut, LuTicketCheck, LuUserRound } from 'react-icons/lu';
+import { MdKeyboardArrowRight, MdOutlineFeedback } from 'react-icons/md';
+import { RiExchangeDollarLine } from 'react-icons/ri';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../ui/accordion";
+} from '../ui/accordion';
 // menus link
 const adminMenus = [
   {
-    name: "Dashboard",
+    name: 'Dashboard',
     icon: <IoSpeedometerOutline className="text-xl" />,
-    path: "/",
+    path: '/',
   },
   {
-    name: "Payment",
+    name: 'Payment',
     icon: <RiExchangeDollarLine className="text-xl" />,
-    path: "/payment",
+    path: '/payment',
   },
   {
-    name: "Stripe Info",
+    name: 'Stripe Info',
     icon: <FaCcStripe className="text-xl" />,
-    path: "/stripe-info",
+    path: '/stripe-info',
   },
   {
-    name: "Category",
+    name: 'Category',
     icon: <AiOutlineMenuUnfold className="text-xl" />,
-    path: "/category",
+    path: '/category',
   },
   {
-    name: "User Management",
+    name: 'User Management',
     icon: <LuUserRound className="text-xl" />,
-    path: "/user-management",
+    path: '/user-management',
   },
   {
-    name: "Host Management",
+    name: 'Host Management',
     icon: <FaUserTie className="text-xl" />,
-    path: "/host-management",
+    path: '/host-management',
   },
   {
-    name: "Booking",
+    name: 'Booking',
     icon: <LuTicketCheck className="text-xl" />,
-    path: "/booking",
+    path: '/booking',
   },
   {
-    name: "Feedback",
+    name: 'Feedback',
     icon: <MdOutlineFeedback className="text-xl" />,
-    path: "/feedback",
+    path: '/feedback',
   },
 ];
 
 // setting links
 const settingLink = [
-  { name: "Privacy Policy", path: "/privacy" },
-  { name: "Terms & Condition", path: "/terms" },
-  { name: "Profile", path: "/profile" },
+  { name: 'Privacy Policy', path: '/privacy' },
+  { name: 'Terms & Condition', path: '/terms' },
+  { name: 'Profile', path: '/profile' },
 ];
 
 const Sidebar = () => {
@@ -67,8 +67,8 @@ const Sidebar = () => {
   const location = useLocation();
 
   const handleLogOut = () => {
-    localStorage.removeItem("accessToken");
-    navigate("/login");
+    localStorage.removeItem('accessToken');
+    navigate('/login');
   };
   return (
     <div className="start-start  flex-col bg-[var(--black-200)] h-full overflow-y-scroll p-3">
@@ -79,8 +79,8 @@ const Sidebar = () => {
         <NavLink
           className={`${
             location?.pathname === item?.path
-              ? "sidebar-button-orange"
-              : "sidebar-button-black"
+              ? 'sidebar-button-orange'
+              : 'sidebar-button-black'
           } `}
           to={item?.path}
         >
@@ -93,7 +93,7 @@ const Sidebar = () => {
           <AccordionItem value="item-1" className="border-none">
             <AccordionTrigger className="w-full">
               <button className="sidebar-button-black relative">
-                <IoSettingsOutline className="text-xl" /> Setting{" "}
+                <IoSettingsOutline className="text-xl" /> Setting{' '}
                 <MdKeyboardArrowRight className="absolute right-2 top-[50%] translate-y-[-50%]" />
               </button>
             </AccordionTrigger>
@@ -103,8 +103,8 @@ const Sidebar = () => {
                   <NavLink
                     className={`${
                       location?.pathname === item?.path
-                        ? "sidebar-button-orange"
-                        : "sidebar-button-black"
+                        ? 'sidebar-button-orange'
+                        : 'sidebar-button-black'
                     } `}
                     to={item?.path}
                   >
