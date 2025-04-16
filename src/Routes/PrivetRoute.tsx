@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect, type ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
